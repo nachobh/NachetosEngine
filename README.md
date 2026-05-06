@@ -1,7 +1,7 @@
 # NachetosEngine
 UI Engine for web (HTML + CSS + JS) - Just a JSON parser/interpreter
 
-## UI designed in JSON format
+## UI scheme designed in JSON format
 
 ### JSON format
 
@@ -9,15 +9,144 @@ The JSON file/template will have this format:
 
 ```JSON
 {
+  "title" : {
+    "content": "Example"
+  },
   "screens": [
     {
       "id": 1,
       "first": true,
-      "title": "Hello world",
+      "title": {
+        "content": "${literal.hello_world}",
+        "background-color": "transparent",
+        "color": "white"
+      },
       "size": {
         "x": 100,
         "y": 100
-      }
+      },
+      "border": {
+        "color": "white",
+        "width": 0.1
+      },
+      "background": {
+        "color": "white"
+      },
+      "buttons": [
+        {
+          "id": 1,
+          "defaultSelected": true,
+          "size": {
+            "x": 10,
+            "y": 5
+          },
+          "position": {
+            "x": 80,
+            "y": 85
+          },
+          "text": {
+            "content": "${literal.hello_world}",
+            "background-color": "transparent",
+            "color": "#1A1A1A"
+          },
+          "background": {
+            "color": "#AEAEAE"
+          },
+          "action": "load_screen(2)"
+        },
+        {
+          "id": 2,
+          "size": {
+            "x": 10,
+            "y": 5
+          },
+          "position": {
+            "x": 20,
+            "y": 85
+          },
+          "text": {
+            "content": "Hasta la vista!",
+            "background-color": "transparent",
+            "color": "#1A1A1A"
+          },
+          "border": {
+            "color": "red",
+            "width": 0.1,
+            "rounded-radius": 0.05
+          },
+          "background": {
+            "color": "#AEAEAE"
+          },
+          "action": "exit"
+        }
+      ],
+      "dialogs": [
+        {
+          "id": 1,
+          "size": {
+            "x": 80,
+            "y": 20
+          },
+          "position": {
+            "x": 50,
+            "y": 75
+          },
+          "action-to-show": null,
+          "text": {
+            "content": "${literal.example-screen",
+            "background-color": "white",
+            "color": "#1A1A1A"
+          },
+          "z-index": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "first": true,
+      "title": {
+        "content": "${literal.hello_world}",
+        "background-color": "transparent",
+        "color": "white"
+      },
+      "size": {
+        "x": 100,
+        "y": 100
+      },
+      "border": {
+        "color": "white",
+        "width": 0.1
+      },
+      "background": {
+        "color": "white"
+      },
+      "buttons": [
+        {
+          "id": 1,
+          "size": {
+            "x": 10,
+            "y": 5
+          },
+          "position": {
+            "x": 20,
+            "y": 85
+          },
+          "text": {
+            "content": "Hasta la vista!",
+            "background-color": "transparent",
+            "color": "#1A1A1A"
+          },
+          "border": {
+            "color": "red",
+            "width": 0.1,
+            "rounded-radius": 0.05
+          },
+          "background": {
+            "color": "#AEAEAE"
+          },
+          "action": "exit"
+        }
+      ]
     }
   ]
 }
