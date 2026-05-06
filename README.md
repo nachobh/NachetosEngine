@@ -10,8 +10,17 @@ The JSON file/template will have this format:
 ```JSON
 {
   "title" : {
-    "content": "Example"
+    "content": "Example Title"
   },
+  "description" : {
+    "content": "${literal.example_description}"
+  },
+  "author" : {
+    "content": "Ignacio Benito Herrero"
+  },
+  "languages": [
+    "en", "es"
+  ],
   "screens": [
     {
       "id": 1,
@@ -152,7 +161,7 @@ The JSON file/template will have this format:
 }
 ```
 
-### Decription of elements
+### Description of elements
 
 app/game → This is the parent/main element/node without any name.
 "screens" → This field represent the list of screens in the app.
@@ -169,5 +178,5 @@ This project was inspired by @lordcuch from a small talk in BCN Game Fest while 
 
 This way, you can have all your UI elements on a JSON format, allowing you to update the UI without publishing a new version of your app.
 
-As final goal, html result file should be compiled into different formats, so this "engine" serves not only as an HTML generator, but also as a multiplatform app designer.
+As final goal, HTML result file should be compiled into different formats, so this "engine" serves not only as an HTML generator, but also as a multiplatform app designer.
 
