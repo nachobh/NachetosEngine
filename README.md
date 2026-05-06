@@ -163,8 +163,12 @@ The JSON file/template will have this format:
 
 ### Description of elements
 
-app/game → This is the parent/main element/node without any name.
-"screens" → This field represent the list of screens in the app.
+- _title_:
+- _description_:
+- _content_:
+- _screens_: This field represent the list of screens in the app.
+- _blablabla_
+
 
 ## A little bit of history
 
