@@ -11,8 +11,8 @@
         <h1>Nachetos Engine</h1>
         <input type="file" id="templateLoader" accept=".json">
     </header>
-    <main>
-        <h2>Template</h2>
+    <main id="templateHtml">
+        <h1>Template HTML</h1>
     </main>
     <footer>
         <label for="templateJson">Raw JSON</label>
@@ -22,14 +22,25 @@
 </body>
 </html>
 <script type="text/javascript">
-    function parseTemplate(templateLoaderEvent) {
-        let templateFile = templateLoaderEvent.target.files[0];
-        console.log(templateFile);
-        let templateJsonReader = new FileReader();
-        templateJsonReader.onload = () => {
-            document.getElementById("templateJson").value = templateJsonReader.result;
-        }
-        templateJsonReader.readAsText(templateFile);
+    function parseTemplate(templateJsonText) {
+        let templateObject = JSON.parse(templateJsonText);
+        let screen = templateObject.screens.find((screen) => screen.first);
+        let templateHtml = document.getElementById('templateHtml');
+        templateHtml.style.backgroundColor = screen.background.color ?? document.body.style.backgroundColor;
+        templateHtml.style.borderColor = screen.border.color ?? document.body.style.borderColor;
+        templateHtml.style.borderWidth = screen.border.width ?? document.body.style.borderWidth;
     }
-    document.getElementById('templateLoader').addEventListener('change', parseTemplate, false);
+
+    function readTemplate(templateLoaderEvent) {
+        let templateFile = templateLoaderEvent.target.files[0];
+        let templateJsonTextArea = document.getElementById("templateJson");
+        let templateJsonFileReader = new FileReader();
+        templateJsonFileReader.onload = () => {
+            templateJsonTextArea.value = templateJsonFileReader.result;
+            parseTemplate(templateJsonTextArea.value)
+        }
+        templateJsonFileReader.readAsText(templateFile);
+    }
+
+    document.getElementById('templateLoader').addEventListener('change', readTemplate, false);
 </script>

@@ -26,10 +26,10 @@
       },
       "border": {
         "color": "white",
-        "width": 0.1
+        "width": 10
       },
       "background": {
-        "color": "white"
+        "color": "grey"
       },
       "buttons": [
         {
