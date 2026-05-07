@@ -96,8 +96,8 @@ The JSON file/template will have this format:
           },
           "border": {
             "color": "red",
-            "width": 0.1,
-            "radius": 0.05
+            "width": 5,
+            "radius": 30
           },
           "background": {
             "color": "#AEAEAE"
@@ -120,8 +120,8 @@ The JSON file/template will have this format:
           },
           "border": {
             "color": "red",
-            "width": 0.1,
-            "radius": 0.05
+            "width": 1,
+            "radius": 50
           },
           "action-to-show": null,
           "text": {
@@ -146,7 +146,7 @@ The JSON file/template will have this format:
           "border": {
             "color": "red",
             "width": 0.1,
-            "radius": 0.5
+            "radius": 10
           },
           "action-to-show": null,
           "image": {

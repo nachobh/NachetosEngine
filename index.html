@@ -74,7 +74,7 @@
                     ? buttonJson.border.width + '%'
                     : buttonHtml.style.borderWidth;
                 buttonHtml.style.borderRadius = buttonJson?.border?.radius != null
-                    ? buttonJson.border.width + '%'
+                    ? buttonJson.border.radius + '%'
                     : buttonHtml.style.borderRadius;
                 buttonsToRemove.push(buttonHtml);
                 templateHtmlPreviewer.appendChild(buttonHtml)
@@ -98,7 +98,7 @@
                     ? dialogJson.border.width + '%'
                     : dialogHtml.style.borderWidth;
                 dialogHtml.style.borderRadius = dialogJson?.border?.radius != null
-                    ? dialogJson.border.width + '%'
+                    ? dialogJson.border.radius + '%'
                     : dialogHtml.style.borderRadius;
                 dialogsToRemove.push(dialogHtml);
                 templateHtmlPreviewer.appendChild(dialogHtml)
@@ -122,7 +122,7 @@
                     ? pictureJson.border.width + '%'
                     : pictureHtml.style.borderWidth;
                 pictureHtml.style.borderRadius = pictureJson?.border?.radius != null
-                    ? pictureJson.border.width + '%'
+                    ? pictureJson.border.radius + '%'
                     : pictureHtml.style.borderRadius;
                 dialogsToRemove.push(pictureHtml);
                 templateHtmlPreviewer.appendChild(pictureHtml)
