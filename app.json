@@ -26,7 +26,7 @@
       },
       "border": {
         "color": "white",
-        "width": 10
+        "width": 0.1
       },
       "background": {
         "color": "grey"
@@ -34,7 +34,7 @@
       "buttons": [
         {
           "id": 1,
-          "defaultSelected": true,
+          "defaultFocused": true,
           "size": {
             "x": 10,
             "y": 5
@@ -51,7 +51,10 @@
           "background": {
             "color": "#AEAEAE"
           },
-          "action": "load_screen(2)"
+          "action": {
+            "name": "loadScreen",
+            "args": [2]
+          }
         },
         {
           "id": 2,
@@ -76,7 +79,9 @@
           "background": {
             "color": "#AEAEAE"
           },
-          "action": "exit"
+          "action": {
+            "name": "exit"
+          }
         }
       ],
       "dialogs": [
@@ -143,7 +148,9 @@
           "background": {
             "color": "#AEAEAE"
           },
-          "action": "exit"
+          "action": {
+            "name": "exit"
+          }
         }
       ]
     }

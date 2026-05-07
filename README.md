@@ -9,17 +9,18 @@ The JSON file/template will have this format:
 
 ```JSON
 {
-  "title" : {
+  "title": {
     "content": "Example Title"
   },
-  "description" : {
+  "description": {
     "content": "${literal.example_description}"
   },
-  "author" : {
+  "author": {
     "content": "Ignacio Benito Herrero"
   },
   "languages": [
-    "en", "es"
+    "en",
+    "es"
   ],
   "screens": [
     {
@@ -39,12 +40,12 @@ The JSON file/template will have this format:
         "width": 0.1
       },
       "background": {
-        "color": "white"
+        "color": "grey"
       },
       "buttons": [
         {
           "id": 1,
-          "defaultSelected": true,
+          "defaultFocused": true,
           "size": {
             "x": 10,
             "y": 5
@@ -61,7 +62,10 @@ The JSON file/template will have this format:
           "background": {
             "color": "#AEAEAE"
           },
-          "action": "load_screen(2)"
+          "action": {
+            "name": "loadScreen",
+            "args": [2]
+          }
         },
         {
           "id": 2,
@@ -86,7 +90,9 @@ The JSON file/template will have this format:
           "background": {
             "color": "#AEAEAE"
           },
-          "action": "exit"
+          "action": {
+            "name": "exit"
+          }
         }
       ],
       "dialogs": [
@@ -132,6 +138,7 @@ The JSON file/template will have this format:
       "buttons": [
         {
           "id": 1,
+          "defaultFocused": true,
           "size": {
             "x": 10,
             "y": 5
@@ -153,7 +160,9 @@ The JSON file/template will have this format:
           "background": {
             "color": "#AEAEAE"
           },
-          "action": "exit"
+          "action": {
+            "name": "exit"
+          }
         }
       ]
     }

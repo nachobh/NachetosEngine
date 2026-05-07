@@ -22,13 +22,59 @@
 </body>
 </html>
 <script type="text/javascript">
+
     function parseTemplate(templateJsonText) {
+
         let templateObject = JSON.parse(templateJsonText);
         let screen = templateObject.screens.find((screen) => screen.first);
-        let templateHtml = document.getElementById('templateHtml');
-        templateHtml.style.backgroundColor = screen.background.color ?? document.body.style.backgroundColor;
-        templateHtml.style.borderColor = screen.border.color ?? document.body.style.borderColor;
-        templateHtml.style.borderWidth = screen.border.width ?? document.body.style.borderWidth;
+        let templateHtmlPreviewer = document.getElementById('templateHtml');
+        let buttonsToRemove = [];
+
+        function setTemplateHtmlPreviewerStyle() {
+            templateHtmlPreviewer.style.backgroundColor = screen.background.color ?? document.body.style.backgroundColor;
+            templateHtmlPreviewer.style.borderColor = screen.border.color ?? document.body.style.borderColor;
+            templateHtmlPreviewer.style.borderWidth = screen.border.width != null
+                ? screen.border.width + '%'
+                : document.body.style.borderWidth;
+        }
+
+        function loadButtons() {
+            let jsonButtons = screen.buttons;
+            for (let jsonButton of jsonButtons) {
+                let button = document.createElement('button');
+                button.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
+                button.setAttribute('type', 'button');
+                button.textContent = jsonButton.textContent;
+                button.style.marginLeft = jsonButton.position.x + '%';
+                button.style.marginTop = jsonButton.position.y + '%';
+                button.textContent = jsonButton.text.content;
+                button.style.height = jsonButton.size.y + '%';
+                button.style.width = jsonButton.size.x + '%';
+                button.style.backgroundColor = jsonButton.background.color;
+                // button.style.borderColor = jsonButton.border.color;
+                // button.style.borderWidth = jsonButton.border.width + '%';
+                buttonsToRemove.push(button);
+                templateHtmlPreviewer.appendChild(button)
+            }
+        }
+
+        const actions = {
+            loadScreen: function(screenIdToLoad) {
+                buttonsToRemove.forEach(button => {templateHtmlPreviewer.removeChild(button);})
+                buttonsToRemove = []
+                screen = templateObject.screens.find((screen) => screen.id === screenIdToLoad[0]);
+                setTemplateHtmlPreviewerStyle();
+                loadButtons()
+            },
+            exit: function() {
+                window.close();
+                let customWindow = window.open('', '_blank', '');
+                customWindow.close();
+            }
+        }
+
+        setTemplateHtmlPreviewerStyle();
+        loadButtons();
     }
 
     function readTemplate(templateLoaderEvent) {
