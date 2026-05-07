@@ -30,6 +30,7 @@
         let screen = templateObject.screens.find((screen) => screen.first);
         let templateHtmlPreviewer = document.getElementById('templateHtml');
         let buttonsToRemove = [];
+        let dialogsToRemove = [];
         let currentLanguageIso;
         let currentLanguageObject = templateObject.languages.find((language) => language.iso === (currentLanguageIso ?? 'es'));
 
@@ -44,8 +45,8 @@
         }
 
         function setMetaElements() {
-            document.getElementById('title').innerText = translate(templateObject.title.content);
-            document.getElementById('description').innerText = translate(templateObject.description.content);
+            document.getElementById('title').innerText = translate(templateObject?.title?.content ?? '');
+            document.getElementById('description').innerText = translate(templateObject?.description?.content ?? '');
         }
 
         function setTemplateHtmlPreviewerStyle() {
@@ -57,32 +58,53 @@
         }
 
         function loadButtons() {
-            let jsonButtons = screen.buttons;
-            for (let jsonButton of jsonButtons) {
-                let button = document.createElement('button');
-                button.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
-                button.setAttribute('type', 'button');
-                button.textContent = jsonButton.textContent;
-                button.style.marginLeft = jsonButton.position.x + '%';
-                button.style.marginTop = jsonButton.position.y + '%';
-                button.textContent = translate(jsonButton.text.content);
-                button.style.height = jsonButton.size.y + '%';
-                button.style.width = jsonButton.size.x + '%';
-                button.style.backgroundColor = jsonButton.background.color;
+            let buttonsJson = screen.buttons;
+            for (let buttonJson of buttonsJson) {
+                let buttonHtml = document.createElement('button');
+                buttonHtml.addEventListener('click', () => actions[buttonJson.action.name](buttonJson.action.args));
+                buttonHtml.setAttribute('type', 'button');
+                buttonHtml.textContent = translate(buttonJson?.text?.content ?? '');
+                buttonHtml.style.marginLeft = buttonJson.position.x + '%';
+                buttonHtml.style.marginTop = buttonJson.position.y + '%';
+                buttonHtml.style.height = buttonJson.size.y + '%';
+                buttonHtml.style.width = buttonJson.size.x + '%';
+                buttonHtml.style.backgroundColor = buttonJson.background.color ?? buttonHtml.style.backgroundColor;
                 // button.style.borderColor = jsonButton.border.color;
                 // button.style.borderWidth = jsonButton.border.width + '%';
-                buttonsToRemove.push(button);
-                templateHtmlPreviewer.appendChild(button)
+                buttonsToRemove.push(buttonHtml);
+                templateHtmlPreviewer.appendChild(buttonHtml)
+            }
+        }
+
+        function loadDialogs() {
+            let dialogsJson = screen.dialogs;
+            for (let dialogJson of dialogsJson) {
+                let dialogHtml = document.createElement('div');
+                //todo click on dialog must show next dialog? boolean on JSON?
+                //dialog.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
+                dialogHtml.innerText = translate(dialogJson?.text?.content ?? ''); //todo think about too much null safe, maybe some error is better?
+                dialogHtml.style.marginLeft = dialogJson.position.x + '%'; //todo should define 'required' properties somehow?
+                dialogHtml.style.marginTop = dialogJson.position.y + '%';
+                dialogHtml.style.height = dialogJson.size.y + '%';
+                dialogHtml.style.width = dialogJson.size.x + '%';
+                dialogHtml.style.backgroundColor = dialogJson.background?.color ?? dialogHtml.style.backgroundColor;
+                // button.style.borderColor = jsonButton.border.color;
+                // button.style.borderWidth = jsonButton.border.width + '%';
+                dialogsToRemove.push(dialogHtml);
+                templateHtmlPreviewer.appendChild(dialogHtml)
             }
         }
 
         const actions = {
             loadScreen: function(screenIdToLoad) {
                 buttonsToRemove.forEach(button => {templateHtmlPreviewer.removeChild(button);})
+                dialogsToRemove.forEach(dialog => {templateHtmlPreviewer.removeChild(dialog);})
                 buttonsToRemove = []
+                dialogsToRemove = []
                 screen = templateObject.screens.find((screen) => screen.id === screenIdToLoad[0]);
                 setTemplateHtmlPreviewerStyle();
                 loadButtons()
+                loadDialogs()
             },
             exit: function() { //todo delete or see how to make it work. Maybe a first screen as menu?
                 window.close();
@@ -94,6 +116,7 @@
         setMetaElements()
         setTemplateHtmlPreviewerStyle();
         loadButtons();
+        loadDialogs();
     }
 
     function readTemplate(templateLoaderEvent) {

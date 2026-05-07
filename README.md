@@ -23,13 +23,15 @@ The JSON file/template will have this format:
       "iso": "en",
       "example_description": "Description",
       "example_screen": "Example screen",
-      "hello_world": "Hello world!"
+      "hello_world": "Hello world!",
+      "hello_world_dialog": "This is the hello world dialog."
     },
     {
       "iso": "es",
       "example_description": "Descripción",
       "example_screen": "Pantalla de ejemplo",
-      "hello_world": "¡Hola mundo!"
+      "hello_world": "¡Hola mundo!",
+      "hello_world_dialog": "Este es el diálogo de hola mundo."
     }
   ],
   "screens": [
@@ -118,7 +120,7 @@ The JSON file/template will have this format:
           },
           "action-to-show": null,
           "text": {
-            "content": "${example_screen",
+            "content": "${hello_world_dialog}",
             "background-color": "white",
             "color": "#1A1A1A"
           },
