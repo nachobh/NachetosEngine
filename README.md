@@ -13,20 +13,31 @@ The JSON file/template will have this format:
     "content": "Example Title"
   },
   "description" : {
-    "content": "${literal.example_description}"
+    "content": "${example_description}"
   },
   "author" : {
     "content": "Ignacio Benito Herrero"
   },
   "languages": [
-    "en", "es"
+    {
+      "iso": "en",
+      "example_description": "Description",
+      "example_screen": "Example screen",
+      "hello_world": "Hello world!"
+    },
+    {
+      "iso": "es",
+      "example_description": "Descripción",
+      "example_screen": "Pantalla de ejemplo",
+      "hello_world": "¡Hola mundo!"
+    }
   ],
   "screens": [
     {
       "id": 1,
       "first": true,
       "title": {
-        "content": "${literal.hello_world}",
+        "content": "${hello_world}",
         "background-color": "transparent",
         "color": "white"
       },
@@ -54,7 +65,7 @@ The JSON file/template will have this format:
             "y": 85
           },
           "text": {
-            "content": "${literal.hello_world}",
+            "content": "${hello_world}",
             "background-color": "transparent",
             "color": "#1A1A1A"
           },
@@ -107,7 +118,7 @@ The JSON file/template will have this format:
           },
           "action-to-show": null,
           "text": {
-            "content": "${literal.example_screen",
+            "content": "${example_screen",
             "background-color": "white",
             "color": "#1A1A1A"
           },
@@ -117,9 +128,8 @@ The JSON file/template will have this format:
     },
     {
       "id": 2,
-      "first": true,
       "title": {
-        "content": "${literal.hello_world}",
+        "content": "${hello_world}",
         "background-color": "transparent",
         "color": "white"
       },

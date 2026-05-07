@@ -26,7 +26,6 @@
 <script type="text/javascript">
 
     function parseTemplate(templateJsonText) {
-
         let templateObject = JSON.parse(templateJsonText);
         let screen = templateObject.screens.find((screen) => screen.first);
         let templateHtmlPreviewer = document.getElementById('templateHtml');
@@ -98,6 +97,7 @@
     }
 
     function readTemplate(templateLoaderEvent) {
+        resetTemplate();
         let templateFile = templateLoaderEvent.target.files[0];
         let templateJsonTextArea = document.getElementById("templateJson");
         let templateJsonFileReader = new FileReader();
@@ -106,6 +106,18 @@
             parseTemplate(templateJsonTextArea.value)
         }
         templateJsonFileReader.readAsText(templateFile);
+    }
+
+    function resetTemplate() {
+        let templateHtmlPreviewer = document.getElementById('templateHtml');
+        templateHtmlPreviewer.innerHTML = '\n' +
+            '\t\t<h1 id="title">Template HTML</h1>\n' +
+            '\t\t<p id="description">Template HTML content</p>' +
+            '\n';
+        templateHtmlPreviewer.style.backgroundColor = 'white';
+        templateHtmlPreviewer.style.color = 'black';
+        templateHtmlPreviewer.style.borderColor = 'transparent';
+        templateHtmlPreviewer.style.borderWidth = '0px';
     }
 
     document.getElementById('templateLoader').addEventListener('change', readTemplate, false);

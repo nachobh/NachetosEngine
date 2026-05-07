@@ -108,7 +108,7 @@
           },
           "action-to-show": null,
           "text": {
-            "content": "${example_screen",
+            "content": "${hello_world_dialog}",
             "background-color": "white",
             "color": "#1A1A1A"
           },
