@@ -97,7 +97,7 @@ The JSON file/template will have this format:
           "border": {
             "color": "red",
             "width": 0.1,
-            "rounded-radius": 0.05
+            "radius": 0.05
           },
           "background": {
             "color": "#AEAEAE"
@@ -118,9 +118,39 @@ The JSON file/template will have this format:
             "x": 50,
             "y": 75
           },
+          "border": {
+            "color": "red",
+            "width": 0.1,
+            "radius": 0.05
+          },
           "action-to-show": null,
           "text": {
             "content": "${hello_world_dialog}",
+            "background-color": "white",
+            "color": "#1A1A1A"
+          },
+          "z-index": 1
+        }
+      ],
+      "pictures": [
+        {
+          "id": 1,
+          "size": {
+            "x": 80,
+            "y": 20
+          },
+          "position": {
+            "x": 50,
+            "y": 75
+          },
+          "border": {
+            "color": "red",
+            "width": 0.1,
+            "radius": 0.5
+          },
+          "action-to-show": null,
+          "image": {
+            "content": "image01.png",
             "background-color": "white",
             "color": "#1A1A1A"
           },
@@ -165,7 +195,7 @@ The JSON file/template will have this format:
           "border": {
             "color": "red",
             "width": 0.1,
-            "rounded-radius": 0.05
+            "radius": 0.05
           },
           "background": {
             "color": "#AEAEAE"

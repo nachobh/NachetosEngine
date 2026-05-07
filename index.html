@@ -69,8 +69,13 @@
                 buttonHtml.style.height = buttonJson.size.y + '%';
                 buttonHtml.style.width = buttonJson.size.x + '%';
                 buttonHtml.style.backgroundColor = buttonJson.background.color ?? buttonHtml.style.backgroundColor;
-                // button.style.borderColor = jsonButton.border.color;
-                // button.style.borderWidth = jsonButton.border.width + '%';
+                buttonHtml.style.borderColor = buttonJson?.border?.color ?? buttonHtml.style.borderColor;
+                buttonHtml.style.borderWidth = buttonJson?.border?.width != null
+                    ? buttonJson.border.width + '%'
+                    : buttonHtml.style.borderWidth;
+                buttonHtml.style.borderRadius = buttonJson?.border?.radius != null
+                    ? buttonJson.border.width + '%'
+                    : buttonHtml.style.borderRadius;
                 buttonsToRemove.push(buttonHtml);
                 templateHtmlPreviewer.appendChild(buttonHtml)
             }
@@ -88,10 +93,39 @@
                 dialogHtml.style.height = dialogJson.size.y + '%';
                 dialogHtml.style.width = dialogJson.size.x + '%';
                 dialogHtml.style.backgroundColor = dialogJson.background?.color ?? dialogHtml.style.backgroundColor;
-                // button.style.borderColor = jsonButton.border.color;
-                // button.style.borderWidth = jsonButton.border.width + '%';
+                dialogHtml.style.borderColor = dialogJson.border.color ?? dialogHtml.style.borderColor;
+                dialogHtml.style.borderWidth = dialogJson?.border?.width != null
+                    ? dialogJson.border.width + '%'
+                    : dialogHtml.style.borderWidth;
+                dialogHtml.style.borderRadius = dialogJson?.border?.radius != null
+                    ? dialogJson.border.width + '%'
+                    : dialogHtml.style.borderRadius;
                 dialogsToRemove.push(dialogHtml);
                 templateHtmlPreviewer.appendChild(dialogHtml)
+            }
+        }
+
+        function loadPictures() {
+            let picturesJson = screen.pictures;
+            for (let pictureJson of picturesJson) {
+                let pictureHtml = document.createElement('img');
+                //todo click on dialog must show next dialog? boolean on JSON?
+                //dialog.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
+                pictureHtml.src = pictureJson?.image?.content ?? ''; //todo think about too much null safe, maybe some error is better?
+                pictureHtml.style.marginLeft = pictureJson.position.x + '%'; //todo should define 'required' properties somehow?
+                pictureHtml.style.marginTop = pictureJson.position.y + '%';
+                pictureHtml.style.height = pictureJson.size.y + '%';
+                pictureHtml.style.width = pictureJson.size.x + '%';
+                pictureHtml.style.backgroundColor = pictureJson.background?.color ?? pictureHtml.style.backgroundColor;
+                pictureHtml.style.borderColor = pictureJson.border.color ?? pictureHtml.style.borderColor;
+                pictureHtml.style.borderWidth = pictureJson?.border?.width != null
+                    ? pictureJson.border.width + '%'
+                    : pictureHtml.style.borderWidth;
+                pictureHtml.style.borderRadius = pictureJson?.border?.radius != null
+                    ? pictureJson.border.width + '%'
+                    : pictureHtml.style.borderRadius;
+                dialogsToRemove.push(pictureHtml);
+                templateHtmlPreviewer.appendChild(pictureHtml)
             }
         }
 
@@ -117,6 +151,7 @@
         setTemplateHtmlPreviewerStyle();
         loadButtons();
         loadDialogs();
+        loadPictures();
     }
 
     function readTemplate(templateLoaderEvent) {
