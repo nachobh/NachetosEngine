@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -12,7 +13,8 @@
         <input type="file" id="templateLoader" accept=".json">
     </header>
     <main id="templateHtml">
-        <h1>Template HTML</h1>
+        <h1 id="title">Template HTML</h1>
+        <p id="description">Template HTML content</p>
     </main>
     <footer>
         <label for="templateJson">Raw JSON</label>
@@ -29,6 +31,23 @@
         let screen = templateObject.screens.find((screen) => screen.first);
         let templateHtmlPreviewer = document.getElementById('templateHtml');
         let buttonsToRemove = [];
+        let currentLanguageIso;
+        let currentLanguageObject = templateObject.languages.find((language) => language.iso === (currentLanguageIso ?? 'es'));
+
+
+        function translate(literal) {
+            if (typeof literal === 'string' && literal.substring(0, 2) === '${') {
+                let literalKey = literal.substring(2, literal.length - 1);
+                return currentLanguageObject[literalKey];
+            } else {
+                return literal;
+            }
+        }
+
+        function setMetaElements() {
+            document.getElementById('title').innerText = translate(templateObject.title.content);
+            document.getElementById('description').innerText = translate(templateObject.description.content);
+        }
 
         function setTemplateHtmlPreviewerStyle() {
             templateHtmlPreviewer.style.backgroundColor = screen.background.color ?? document.body.style.backgroundColor;
@@ -47,7 +66,7 @@
                 button.textContent = jsonButton.textContent;
                 button.style.marginLeft = jsonButton.position.x + '%';
                 button.style.marginTop = jsonButton.position.y + '%';
-                button.textContent = jsonButton.text.content;
+                button.textContent = translate(jsonButton.text.content);
                 button.style.height = jsonButton.size.y + '%';
                 button.style.width = jsonButton.size.x + '%';
                 button.style.backgroundColor = jsonButton.background.color;
@@ -66,13 +85,14 @@
                 setTemplateHtmlPreviewerStyle();
                 loadButtons()
             },
-            exit: function() {
+            exit: function() { //todo delete or see how to make it work. Maybe a first screen as menu?
                 window.close();
                 let customWindow = window.open('', '_blank', '');
                 customWindow.close();
             }
         }
 
+        setMetaElements()
         setTemplateHtmlPreviewerStyle();
         loadButtons();
     }

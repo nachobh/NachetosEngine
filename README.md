@@ -9,18 +9,17 @@ The JSON file/template will have this format:
 
 ```JSON
 {
-  "title": {
+  "title" : {
     "content": "Example Title"
   },
-  "description": {
+  "description" : {
     "content": "${literal.example_description}"
   },
-  "author": {
+  "author" : {
     "content": "Ignacio Benito Herrero"
   },
   "languages": [
-    "en",
-    "es"
+    "en", "es"
   ],
   "screens": [
     {
@@ -108,7 +107,7 @@ The JSON file/template will have this format:
           },
           "action-to-show": null,
           "text": {
-            "content": "${literal.example-screen",
+            "content": "${literal.example_screen",
             "background-color": "white",
             "color": "#1A1A1A"
           },
@@ -138,7 +137,6 @@ The JSON file/template will have this format:
       "buttons": [
         {
           "id": 1,
-          "defaultFocused": true,
           "size": {
             "x": 10,
             "y": 5
