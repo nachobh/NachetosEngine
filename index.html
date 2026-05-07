@@ -7,8 +7,29 @@
     <title>Nachetos Engine</title>
 </head>
 <body>
-    <header></header>
-    <main></main>
-    <footer></footer>
+    <header>
+        <h1>Nachetos Engine</h1>
+        <input type="file" id="templateLoader" accept=".json">
+    </header>
+    <main>
+        <h2>Template</h2>
+    </main>
+    <footer>
+        <label for="templateJson">Raw JSON</label>
+        <br/>
+        <textarea id="templateJson"></textarea>
+    </footer>
 </body>
 </html>
+<script type="text/javascript">
+    function parseTemplate(templateLoaderEvent) {
+        let templateFile = templateLoaderEvent.target.files[0];
+        console.log(templateFile);
+        let templateJsonReader = new FileReader();
+        templateJsonReader.onload = () => {
+            document.getElementById("templateJson").value = templateJsonReader.result;
+        }
+        templateJsonReader.readAsText(templateFile);
+    }
+    document.getElementById('templateLoader').addEventListener('change', parseTemplate, false);
+</script>
