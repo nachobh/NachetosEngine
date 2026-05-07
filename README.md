@@ -18,6 +18,18 @@ The JSON file/template will have this format:
   "author" : {
     "content": "Ignacio Benito Herrero"
   },
+  "canvas": {
+    "size": {
+      "x": 50,
+      "y": 50,
+      "constraints": {
+        "min_x": "350px",
+        "min_y": "550px",
+        "max_x": "1280px",
+        "max_y": "720px"
+      }
+    }
+  },
   "languages": [
     {
       "iso": "en",

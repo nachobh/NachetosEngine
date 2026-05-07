@@ -27,6 +27,7 @@
 
     function parseTemplate(templateJsonText) {
         let templateObject = JSON.parse(templateJsonText);
+        let canvas = templateObject.canvas;
         let screen = templateObject.screens.find((screen) => screen.first);
         let templateHtmlPreviewer = document.getElementById('templateHtml');
         let buttonsToRemove = [];
@@ -49,13 +50,27 @@
             document.getElementById('description').innerText = translate(templateObject?.description?.content ?? '');
         }
 
+        function setCanvasSizing() {
+            templateHtmlPreviewer.style.width = canvas?.size?.x != null ?
+                canvas.size.x + '%' //todo naming must be as CSS?
+                : templateHtmlPreviewer.style.width;
+            templateHtmlPreviewer.style.height = canvas?.size?.y != null ?
+                canvas.size.y + '%'
+                : templateHtmlPreviewer.style.height;
+            templateHtmlPreviewer.style.minWidth = canvas?.size?.constraints?.min_x ?? templateHtmlPreviewer.style.minWidth;
+            templateHtmlPreviewer.style.minHeight = canvas?.size?.constraints?.min_y ?? templateHtmlPreviewer.style.minHeight;
+            templateHtmlPreviewer.style.maxWidth = canvas?.size?.constraints?.max_x ?? templateHtmlPreviewer.style.maxWidth;
+            templateHtmlPreviewer.style.maxHeight = canvas?.size?.constraints?.max_y ?? templateHtmlPreviewer.style.maxHeight;
+
+        }
+
         function setTemplateHtmlPreviewerStyle() {
             templateHtmlPreviewer.style.backgroundColor = screen.background.color ?? document.body.style.backgroundColor;
             templateHtmlPreviewer.style.borderColor = screen.border.color ?? document.body.style.borderColor;
             templateHtmlPreviewer.style.borderWidth = screen.border.width != null
                 ? screen.border.width + '%'
                 : document.body.style.borderWidth;
-        }
+            }
 
         function loadButtons() {
             let buttonsJson = screen.buttons;
@@ -113,7 +128,7 @@
                 //dialog.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
                 pictureHtml.src = pictureJson?.image?.content ?? ''; //todo think about too much null safe, maybe some error is better?
                 pictureHtml.style.marginLeft = pictureJson.position.x + '%'; //todo should define 'required' properties somehow?
-                pictureHtml.style.marginTop = pictureJson.position.y + '%';
+                pictureHtml.style.marginTop = pictureJson.position.y + '%'; //todo should the sizes be defined directly as "50%"?
                 pictureHtml.style.height = pictureJson.size.y + '%';
                 pictureHtml.style.width = pictureJson.size.x + '%';
                 pictureHtml.style.backgroundColor = pictureJson.background?.color ?? pictureHtml.style.backgroundColor;
@@ -148,6 +163,7 @@
         }
 
         setMetaElements()
+        setCanvasSizing()
         setTemplateHtmlPreviewerStyle();
         loadButtons();
         loadDialogs();
