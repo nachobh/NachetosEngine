@@ -13,7 +13,7 @@ The JSON file/template will have this format:
     "content": "Example Title"
   },
   "description" : {
-    "content": "${example_description}"
+    "content": "${exampleDescription}"
   },
   "author" : {
     "content": "Ignacio Benito Herrero"
@@ -23,27 +23,27 @@ The JSON file/template will have this format:
       "x": "50%",
       "y": "50%",
       "constraints": {
-        "min_x": "350px",
-        "min_y": "550px",
-        "max_x": "1280px",
-        "max_y": "720px"
+        "minX": "350px",
+        "minY": "550px",
+        "maxX": "1280px",
+        "maxY": "720px"
       }
     }
   },
   "languages": [
     {
       "iso": "en",
-      "example_description": "Description",
-      "example_screen": "Example screen",
-      "hello_world": "Hello world!",
-      "hello_world_dialog": "This is the hello world dialog."
+      "exampleDescription": "Description",
+      "exampleScreen": "Example screen",
+      "helloWorld": "Hello world!",
+      "helloWorldDialog": "This is the hello world dialog."
     },
     {
       "iso": "es",
-      "example_description": "Descripción",
-      "example_screen": "Pantalla de ejemplo",
-      "hello_world": "¡Hola mundo!",
-      "hello_world_dialog": "Este es el diálogo de hola mundo."
+      "exampleDescription": "Descripción",
+      "exampleScreen": "Pantalla de ejemplo",
+      "helloWorld": "¡Hola mundo!",
+      "helloWorldDialog": "Este es el diálogo de hola mundo."
     }
   ],
   "screens": [
@@ -51,8 +51,8 @@ The JSON file/template will have this format:
       "id": 1,
       "first": true,
       "title": {
-        "content": "${hello_world}",
-        "background-color": "transparent",
+        "content": "${helloWorld}",
+        "backgroundColor": "transparent",
         "color": "white"
       },
       "size": {
@@ -80,8 +80,8 @@ The JSON file/template will have this format:
             "type": "relative"
           },
           "text": {
-            "content": "${hello_world}",
-            "background-color": "transparent",
+            "content": "${helloWorld}",
+            "backgroundColor": "transparent",
             "color": "#1A1A1A"
           },
           "background": {
@@ -104,7 +104,7 @@ The JSON file/template will have this format:
           },
           "text": {
             "content": "Hasta la vista!",
-            "background-color": "transparent",
+            "backgroundColor": "transparent",
             "color": "#1A1A1A"
           },
           "border": {
@@ -136,46 +136,47 @@ The JSON file/template will have this format:
             "width": "1%",
             "radius": "50%"
           },
-          "action-to-show": null,
+          "actionToShow": null,
           "text": {
-            "content": "${hello_world_dialog}",
-            "background-color": "white",
+            "content": "${helloWorldDialog}",
+            "backgroundColor": "white",
             "color": "#1A1A1A"
           },
-          "z-index": 1
+          "zIndex": 1
         }
       ],
       "pictures": [
         {
           "id": 1,
           "size": {
-            "x": "80%",
-            "y": "20%"
+            "x": "10%",
+            "y": "10%"
           },
           "position": {
-            "x": "50%",
-            "y": "75%"
+            "x": "0%",
+            "y": "0%",
+            "type": "fixed"
           },
           "border": {
             "color": "red",
             "width": "0.1%",
             "radius": "10%"
           },
-          "action-to-show": null,
+          "actionToShow": null,
           "image": {
             "content": "image01.png",
-            "background-color": "white",
+            "backgroundColor": "white",
             "color": "#1A1A1A"
           },
-          "z-index": 1
+          "zIndex": -999
         }
       ]
     },
     {
       "id": 2,
       "title": {
-        "content": "${hello_world}",
-        "background-color": "transparent",
+        "content": "${helloWorld}",
+        "backgroundColor": "transparent",
         "color": "white"
       },
       "size": {
@@ -202,7 +203,7 @@ The JSON file/template will have this format:
           },
           "text": {
             "content": "Hasta la vista!",
-            "background-color": "transparent",
+            "backgroundColor": "transparent",
             "color": "#1A1A1A"
           },
           "border": {

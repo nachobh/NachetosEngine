@@ -56,10 +56,10 @@
         function setCanvasSizing() {
             templateHtmlPreviewer.style.width = canvas?.size?.x ?? templateHtmlPreviewer.style.width;
             templateHtmlPreviewer.style.height = canvas?.size?.y ?? templateHtmlPreviewer.style.height;
-            templateHtmlPreviewer.style.minWidth = canvas?.size?.constraints?.min_x ?? templateHtmlPreviewer.style.minWidth;
-            templateHtmlPreviewer.style.minHeight = canvas?.size?.constraints?.min_y ?? templateHtmlPreviewer.style.minHeight;
-            templateHtmlPreviewer.style.maxWidth = canvas?.size?.constraints?.max_x ?? templateHtmlPreviewer.style.maxWidth;
-            templateHtmlPreviewer.style.maxHeight = canvas?.size?.constraints?.max_y ?? templateHtmlPreviewer.style.maxHeight;
+            templateHtmlPreviewer.style.minWidth = canvas?.size?.constraints?.minX ?? templateHtmlPreviewer.style.minWidth;
+            templateHtmlPreviewer.style.minHeight = canvas?.size?.constraints?.minY ?? templateHtmlPreviewer.style.minHeight;
+            templateHtmlPreviewer.style.maxWidth = canvas?.size?.constraints?.maxX ?? templateHtmlPreviewer.style.maxWidth;
+            templateHtmlPreviewer.style.maxHeight = canvas?.size?.constraints?.maxY ?? templateHtmlPreviewer.style.maxHeight;
 
         }
 
@@ -69,6 +69,23 @@
             templateHtmlPreviewer.style.borderWidth = screen?.border?.width ?? document.body.style.borderWidth;
             }
 
+        function setCommonAttributes(htmlElement, jsonElement) {
+            htmlElement.style.position = jsonElement.position?.type ?? 'absolute';
+            htmlElement.style.left = jsonElement.position?.x ?? htmlElement.style.left;
+            htmlElement.style.top = jsonElement.position?.y ?? htmlElement.style.top;
+            htmlElement.style.height = jsonElement.size?.y ?? htmlElement.style.height;
+            htmlElement.style.minHeight = jsonElement.size?.minY ?? htmlElement.style.minHeight;
+            htmlElement.style.maxHeight = jsonElement.size?.maxY ?? htmlElement.style.maxHeight;
+            htmlElement.style.width = jsonElement.size?.x ?? htmlElement.style.width;
+            htmlElement.style.minWidth = jsonElement.size?.minX ?? htmlElement.style.minWidth;
+            htmlElement.style.maxWidth = jsonElement.size?.maxX ?? htmlElement.style.maxWidth;
+            htmlElement.style.backgroundColor = jsonElement.background?.color ?? htmlElement.style.backgroundColor;
+            htmlElement.style.borderColor = jsonElement.border?.color ?? htmlElement.style.borderColor;
+            htmlElement.style.borderWidth = jsonElement.border?.width ?? htmlElement.style.borderWidth;
+            htmlElement.style.borderRadius = jsonElement.border?.radius ?? htmlElement.style.borderRadius;
+            htmlElement.style.zIndex = jsonElement.zIndex ?? htmlElement.style.zIndex;
+        }
+
         function loadButtons() {
             let buttonsJson = screen.buttons;
             for (let buttonJson of buttonsJson) {
@@ -76,16 +93,7 @@
                 buttonHtml.addEventListener('click', () => actions[buttonJson.action?.name ?? 'doNothing'](buttonJson.action.args));
                 buttonHtml.setAttribute('type', 'button');
                 buttonHtml.textContent = translate(buttonJson.text?.content ?? '');
-                buttonHtml.style.position = buttonJson.position?.type ?? 'absolute';
-                buttonHtml.style.left = buttonJson.position?.x;
-                buttonHtml.style.top = buttonJson.position?.y;
-                buttonHtml.style.height = buttonJson.size?.y;
-                buttonHtml.style.width = buttonJson.size?.x;
-                buttonHtml.style.backgroundColor = buttonJson.background?.color ?? buttonHtml.style.backgroundColor;
-                buttonHtml.style.borderColor = buttonJson.border?.color ?? buttonHtml.style.borderColor;
-                buttonHtml.style.borderWidth = buttonJson.border?.width ?? buttonHtml.style.borderWidth;
-                buttonHtml.style.borderRadius = buttonJson.border?.radius ?? buttonHtml.style.borderRadius;
-                buttonHtml.style.zIndex = buttonJson['z-index'] ?? buttonHtml.style.zIndex;
+                setCommonAttributes(buttonHtml, buttonJson);
                 buttonsToRemove.push(buttonHtml);
                 templateHtmlPreviewer.appendChild(buttonHtml)
             }
@@ -97,19 +105,8 @@
                 let dialogHtml = document.createElement('div');
                 //todo click on dialog must show next dialog? boolean on JSON?
                 //dialog.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
-                dialogHtml.innerText = translate(dialogJson.text?.content ?? ''); //todo think about too much null safe, maybe some error is better?
-                dialogHtml.style.marginLeft = dialogJson.position?.x ?? dialogHtml.style.marginLeft; //todo should define 'required' properties somehow?
-                dialogHtml.style.marginTop = dialogJson.position?.y ?? dialogHtml.style.marginTop; //todo naming must be as CSS? x == width and y == height?
-                dialogHtml.style.position = dialogJson.position?.type ?? 'absolute';
-                dialogHtml.style.left = dialogJson.position?.x ?? dialogHtml.style.left;
-                dialogHtml.style.top = dialogJson.position?.y ?? dialogHtml.style.top;
-                dialogHtml.style.height = dialogJson.size?.y ?? dialogHtml.style.height;
-                dialogHtml.style.width = dialogJson.size?.x ?? dialogHtml.style.width;
-                dialogHtml.style.backgroundColor = dialogJson.background?.color ?? dialogHtml.style.backgroundColor;
-                dialogHtml.style.borderColor = dialogJson.border?.color ?? dialogHtml.style.borderColor;
-                dialogHtml.style.borderWidth = dialogJson.border?.width ?? dialogHtml.style.borderWidth;
-                dialogHtml.style.borderRadius = dialogJson.border?.radius ?? dialogHtml.style.borderRadius;
-                dialogHtml.style.zIndex = dialogJson['z-index'] ?? dialogHtml.style.zIndex;
+                dialogHtml.innerText = translate(dialogJson.text?.content ?? '');
+                setCommonAttributes(dialogHtml, dialogJson);
                 dialogsToRemove.push(dialogHtml);
                 templateHtmlPreviewer.appendChild(dialogHtml)
             }
@@ -120,18 +117,7 @@
             for (let pictureJson of picturesJson) {
                 let pictureHtml = document.createElement('img');
                 pictureHtml.src = pictureJson.image?.content ?? '';
-                pictureHtml.style.marginLeft = pictureJson.position?.x ?? pictureHtml.style.marginLeft;
-                pictureHtml.style.marginTop = pictureJson.position?.y ?? pictureHtml.style.marginTop;
-                pictureHtml.style.position = pictureJson.position?.type ?? 'absolute';
-                pictureHtml.style.left = pictureJson.position?.x ?? pictureHtml.style.left;
-                pictureHtml.style.top = pictureJson.position?.y ?? pictureHtml.style.top;
-                pictureHtml.style.height = pictureJson.size?.y ?? pictureHtml.style.height;
-                pictureHtml.style.width = pictureJson.size?.x ?? pictureHtml.style.width;
-                pictureHtml.style.backgroundColor = pictureJson.background?.color ?? pictureHtml.style.backgroundColor;
-                pictureHtml.style.borderColor = pictureJson.border?.color ?? pictureHtml.style.borderColor;
-                pictureHtml.style.borderWidth = pictureJson.border?.width ?? pictureHtml.style.borderWidth;
-                pictureHtml.style.borderRadius = pictureJson.border?.radius ?? pictureHtml.style.borderRadius;
-                pictureHtml.style.zIndex = pictureJson['z-index'] ?? pictureHtml.style.zIndex;
+                setCommonAttributes(pictureHtml, pictureJson);
                 dialogsToRemove.push(pictureHtml);
                 templateHtmlPreviewer.appendChild(pictureHtml)
             }
