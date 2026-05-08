@@ -99,6 +99,9 @@
                 dialogHtml.innerText = translate(dialogJson?.text?.content ?? ''); //todo think about too much null safe, maybe some error is better?
                 dialogHtml.style.marginLeft = dialogJson.position.x; //todo should define 'required' properties somehow?
                 dialogHtml.style.marginTop = dialogJson.position.y;  //todo naming must be as CSS? x == width and y == height?
+                dialogHtml.style.position = dialogJson?.position?.type ?? 'absolute';
+                dialogHtml.style.left = dialogJson.position.x;
+                dialogHtml.style.top = dialogJson.position.y;
                 dialogHtml.style.height = dialogJson.size.y;
                 dialogHtml.style.width = dialogJson.size.x;
                 dialogHtml.style.backgroundColor = dialogJson.background?.color ?? dialogHtml.style.backgroundColor;
@@ -117,6 +120,9 @@
                 pictureHtml.src = pictureJson?.image?.content ?? '';
                 pictureHtml.style.marginLeft = pictureJson.position.x;
                 pictureHtml.style.marginTop = pictureJson.position.y;
+                pictureHtml.style.position = pictureJson?.position?.type ?? 'absolute';
+                pictureHtml.style.left = pictureJson.position.x;
+                pictureHtml.style.top = pictureJson.position.y;
                 pictureHtml.style.height = pictureJson.size.y;
                 pictureHtml.style.width = pictureJson.size.x;
                 pictureHtml.style.backgroundColor = pictureJson.background?.color ?? pictureHtml.style.backgroundColor;
