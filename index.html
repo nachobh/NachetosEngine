@@ -85,6 +85,7 @@
                 buttonHtml.style.borderColor = buttonJson.border?.color ?? buttonHtml.style.borderColor;
                 buttonHtml.style.borderWidth = buttonJson.border?.width ?? buttonHtml.style.borderWidth;
                 buttonHtml.style.borderRadius = buttonJson.border?.radius ?? buttonHtml.style.borderRadius;
+                buttonHtml.style.zIndex = buttonJson['z-index'] ?? buttonHtml.style.zIndex;
                 buttonsToRemove.push(buttonHtml);
                 templateHtmlPreviewer.appendChild(buttonHtml)
             }
@@ -108,6 +109,7 @@
                 dialogHtml.style.borderColor = dialogJson.border?.color ?? dialogHtml.style.borderColor;
                 dialogHtml.style.borderWidth = dialogJson.border?.width ?? dialogHtml.style.borderWidth;
                 dialogHtml.style.borderRadius = dialogJson.border?.radius ?? dialogHtml.style.borderRadius;
+                dialogHtml.style.zIndex = dialogJson['z-index'] ?? dialogHtml.style.zIndex;
                 dialogsToRemove.push(dialogHtml);
                 templateHtmlPreviewer.appendChild(dialogHtml)
             }
@@ -129,6 +131,7 @@
                 pictureHtml.style.borderColor = pictureJson.border?.color ?? pictureHtml.style.borderColor;
                 pictureHtml.style.borderWidth = pictureJson.border?.width ?? pictureHtml.style.borderWidth;
                 pictureHtml.style.borderRadius = pictureJson.border?.radius ?? pictureHtml.style.borderRadius;
+                pictureHtml.style.zIndex = pictureJson['z-index'] ?? pictureHtml.style.zIndex;
                 dialogsToRemove.push(pictureHtml);
                 templateHtmlPreviewer.appendChild(pictureHtml)
             }
