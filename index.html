@@ -64,27 +64,27 @@
         }
 
         function setTemplateHtmlPreviewerStyle() {
-            templateHtmlPreviewer.style.backgroundColor = screen.background.color ?? document.body.style.backgroundColor;
-            templateHtmlPreviewer.style.borderColor = screen.border.color ?? document.body.style.borderColor;
-            templateHtmlPreviewer.style.borderWidth = screen.border.width ?? document.body.style.borderWidth;
+            templateHtmlPreviewer.style.backgroundColor = screen?.background?.color ?? document.body.style.backgroundColor;
+            templateHtmlPreviewer.style.borderColor = screen?.border?.color ?? document.body.style.borderColor;
+            templateHtmlPreviewer.style.borderWidth = screen?.border?.width ?? document.body.style.borderWidth;
             }
 
         function loadButtons() {
             let buttonsJson = screen.buttons;
             for (let buttonJson of buttonsJson) {
                 let buttonHtml = document.createElement('button');
-                buttonHtml.addEventListener('click', () => actions[buttonJson.action.name](buttonJson.action.args));
+                buttonHtml.addEventListener('click', () => actions[buttonJson.action?.name ?? 'doNothing'](buttonJson.action.args));
                 buttonHtml.setAttribute('type', 'button');
-                buttonHtml.textContent = translate(buttonJson?.text?.content ?? '');
-                buttonHtml.style.position = buttonJson?.position?.type ?? 'absolute';
-                buttonHtml.style.left = buttonJson.position.x;
-                buttonHtml.style.top = buttonJson.position.y;
-                buttonHtml.style.height = buttonJson.size.y;
-                buttonHtml.style.width = buttonJson.size.x;
-                buttonHtml.style.backgroundColor = buttonJson.background.color ?? buttonHtml.style.backgroundColor;
-                buttonHtml.style.borderColor = buttonJson?.border?.color ?? buttonHtml.style.borderColor;
-                buttonHtml.style.borderWidth = buttonJson?.border?.width ?? buttonHtml.style.borderWidth;
-                buttonHtml.style.borderRadius = buttonJson?.border?.radius ?? buttonHtml.style.borderRadius;
+                buttonHtml.textContent = translate(buttonJson.text?.content ?? '');
+                buttonHtml.style.position = buttonJson.position?.type ?? 'absolute';
+                buttonHtml.style.left = buttonJson.position?.x;
+                buttonHtml.style.top = buttonJson.position?.y;
+                buttonHtml.style.height = buttonJson.size?.y;
+                buttonHtml.style.width = buttonJson.size?.x;
+                buttonHtml.style.backgroundColor = buttonJson.background?.color ?? buttonHtml.style.backgroundColor;
+                buttonHtml.style.borderColor = buttonJson.border?.color ?? buttonHtml.style.borderColor;
+                buttonHtml.style.borderWidth = buttonJson.border?.width ?? buttonHtml.style.borderWidth;
+                buttonHtml.style.borderRadius = buttonJson.border?.radius ?? buttonHtml.style.borderRadius;
                 buttonsToRemove.push(buttonHtml);
                 templateHtmlPreviewer.appendChild(buttonHtml)
             }
@@ -96,18 +96,18 @@
                 let dialogHtml = document.createElement('div');
                 //todo click on dialog must show next dialog? boolean on JSON?
                 //dialog.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
-                dialogHtml.innerText = translate(dialogJson?.text?.content ?? ''); //todo think about too much null safe, maybe some error is better?
-                dialogHtml.style.marginLeft = dialogJson.position.x; //todo should define 'required' properties somehow?
-                dialogHtml.style.marginTop = dialogJson.position.y;  //todo naming must be as CSS? x == width and y == height?
-                dialogHtml.style.position = dialogJson?.position?.type ?? 'absolute';
-                dialogHtml.style.left = dialogJson.position.x;
-                dialogHtml.style.top = dialogJson.position.y;
-                dialogHtml.style.height = dialogJson.size.y;
-                dialogHtml.style.width = dialogJson.size.x;
+                dialogHtml.innerText = translate(dialogJson.text?.content ?? ''); //todo think about too much null safe, maybe some error is better?
+                dialogHtml.style.marginLeft = dialogJson.position?.x ?? dialogHtml.style.marginLeft; //todo should define 'required' properties somehow?
+                dialogHtml.style.marginTop = dialogJson.position?.y ?? dialogHtml.style.marginTop; //todo naming must be as CSS? x == width and y == height?
+                dialogHtml.style.position = dialogJson.position?.type ?? 'absolute';
+                dialogHtml.style.left = dialogJson.position?.x ?? dialogHtml.style.left;
+                dialogHtml.style.top = dialogJson.position?.y ?? dialogHtml.style.top;
+                dialogHtml.style.height = dialogJson.size?.y ?? dialogHtml.style.height;
+                dialogHtml.style.width = dialogJson.size?.x ?? dialogHtml.style.width;
                 dialogHtml.style.backgroundColor = dialogJson.background?.color ?? dialogHtml.style.backgroundColor;
-                dialogHtml.style.borderColor = dialogJson.border.color ?? dialogHtml.style.borderColor;
-                dialogHtml.style.borderWidth = dialogJson?.border?.width ?? dialogHtml.style.borderWidth;
-                dialogHtml.style.borderRadius = dialogJson?.border?.radius ?? dialogHtml.style.borderRadius;
+                dialogHtml.style.borderColor = dialogJson.border?.color ?? dialogHtml.style.borderColor;
+                dialogHtml.style.borderWidth = dialogJson.border?.width ?? dialogHtml.style.borderWidth;
+                dialogHtml.style.borderRadius = dialogJson.border?.radius ?? dialogHtml.style.borderRadius;
                 dialogsToRemove.push(dialogHtml);
                 templateHtmlPreviewer.appendChild(dialogHtml)
             }
@@ -117,18 +117,18 @@
             let picturesJson = screen.pictures;
             for (let pictureJson of picturesJson) {
                 let pictureHtml = document.createElement('img');
-                pictureHtml.src = pictureJson?.image?.content ?? '';
-                pictureHtml.style.marginLeft = pictureJson.position.x;
-                pictureHtml.style.marginTop = pictureJson.position.y;
-                pictureHtml.style.position = pictureJson?.position?.type ?? 'absolute';
-                pictureHtml.style.left = pictureJson.position.x;
-                pictureHtml.style.top = pictureJson.position.y;
-                pictureHtml.style.height = pictureJson.size.y;
-                pictureHtml.style.width = pictureJson.size.x;
+                pictureHtml.src = pictureJson.image?.content ?? '';
+                pictureHtml.style.marginLeft = pictureJson.position?.x ?? pictureHtml.style.marginLeft;
+                pictureHtml.style.marginTop = pictureJson.position?.y ?? pictureHtml.style.marginTop;
+                pictureHtml.style.position = pictureJson.position?.type ?? 'absolute';
+                pictureHtml.style.left = pictureJson.position?.x ?? pictureHtml.style.left;
+                pictureHtml.style.top = pictureJson.position?.y ?? pictureHtml.style.top;
+                pictureHtml.style.height = pictureJson.size?.y ?? pictureHtml.style.height;
+                pictureHtml.style.width = pictureJson.size?.x ?? pictureHtml.style.width;
                 pictureHtml.style.backgroundColor = pictureJson.background?.color ?? pictureHtml.style.backgroundColor;
-                pictureHtml.style.borderColor = pictureJson.border.color ?? pictureHtml.style.borderColor;
-                pictureHtml.style.borderWidth = pictureJson?.border?.width ?? pictureHtml.style.borderWidth;
-                pictureHtml.style.borderRadius = pictureJson?.border?.radius ?? pictureHtml.style.borderRadius;
+                pictureHtml.style.borderColor = pictureJson.border?.color ?? pictureHtml.style.borderColor;
+                pictureHtml.style.borderWidth = pictureJson.border?.width ?? pictureHtml.style.borderWidth;
+                pictureHtml.style.borderRadius = pictureJson.border?.radius ?? pictureHtml.style.borderRadius;
                 dialogsToRemove.push(pictureHtml);
                 templateHtmlPreviewer.appendChild(pictureHtml)
             }
@@ -149,6 +149,9 @@
                 window.close();
                 let customWindow = window.open('', '_blank', '');
                 customWindow.close();
+            },
+            doNothing: function() {
+                //empty function to protect against errors when action is not well-defined
             }
         }
 
