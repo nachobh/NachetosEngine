@@ -12,10 +12,12 @@
         <h1>Nachetos Engine</h1>
         <input type="file" id="templateLoader" accept=".json">
     </header>
+    <hr/>
     <main id="templateHtml">
         <h1 id="title">Template HTML</h1>
         <p id="description">Template HTML content</p>
     </main>
+    <hr/>
     <footer>
         <label for="templateJson">Raw JSON</label>
         <br/>
@@ -48,15 +50,12 @@
         function setMetaElements() {
             document.getElementById('title').innerText = translate(templateObject?.title?.content ?? '');
             document.getElementById('description').innerText = translate(templateObject?.description?.content ?? '');
+            //todo meta elements of the html
         }
 
         function setCanvasSizing() {
-            templateHtmlPreviewer.style.width = canvas?.size?.x != null ?
-                canvas.size.x + '%' //todo naming must be as CSS?
-                : templateHtmlPreviewer.style.width;
-            templateHtmlPreviewer.style.height = canvas?.size?.y != null ?
-                canvas.size.y + '%'
-                : templateHtmlPreviewer.style.height;
+            templateHtmlPreviewer.style.width = canvas?.size?.x ?? templateHtmlPreviewer.style.width;
+            templateHtmlPreviewer.style.height = canvas?.size?.y ?? templateHtmlPreviewer.style.height;
             templateHtmlPreviewer.style.minWidth = canvas?.size?.constraints?.min_x ?? templateHtmlPreviewer.style.minWidth;
             templateHtmlPreviewer.style.minHeight = canvas?.size?.constraints?.min_y ?? templateHtmlPreviewer.style.minHeight;
             templateHtmlPreviewer.style.maxWidth = canvas?.size?.constraints?.max_x ?? templateHtmlPreviewer.style.maxWidth;
@@ -67,9 +66,7 @@
         function setTemplateHtmlPreviewerStyle() {
             templateHtmlPreviewer.style.backgroundColor = screen.background.color ?? document.body.style.backgroundColor;
             templateHtmlPreviewer.style.borderColor = screen.border.color ?? document.body.style.borderColor;
-            templateHtmlPreviewer.style.borderWidth = screen.border.width != null
-                ? screen.border.width + '%'
-                : document.body.style.borderWidth;
+            templateHtmlPreviewer.style.borderWidth = screen.border.width ?? document.body.style.borderWidth;
             }
 
         function loadButtons() {
@@ -79,18 +76,15 @@
                 buttonHtml.addEventListener('click', () => actions[buttonJson.action.name](buttonJson.action.args));
                 buttonHtml.setAttribute('type', 'button');
                 buttonHtml.textContent = translate(buttonJson?.text?.content ?? '');
-                buttonHtml.style.marginLeft = buttonJson.position.x + '%';
-                buttonHtml.style.marginTop = buttonJson.position.y + '%';
-                buttonHtml.style.height = buttonJson.size.y + '%';
-                buttonHtml.style.width = buttonJson.size.x + '%';
+                buttonHtml.style.position = buttonJson?.position?.type ?? 'absolute';
+                buttonHtml.style.left = buttonJson.position.x;
+                buttonHtml.style.top = buttonJson.position.y;
+                buttonHtml.style.height = buttonJson.size.y;
+                buttonHtml.style.width = buttonJson.size.x;
                 buttonHtml.style.backgroundColor = buttonJson.background.color ?? buttonHtml.style.backgroundColor;
                 buttonHtml.style.borderColor = buttonJson?.border?.color ?? buttonHtml.style.borderColor;
-                buttonHtml.style.borderWidth = buttonJson?.border?.width != null
-                    ? buttonJson.border.width + '%'
-                    : buttonHtml.style.borderWidth;
-                buttonHtml.style.borderRadius = buttonJson?.border?.radius != null
-                    ? buttonJson.border.radius + '%'
-                    : buttonHtml.style.borderRadius;
+                buttonHtml.style.borderWidth = buttonJson?.border?.width ?? buttonHtml.style.borderWidth;
+                buttonHtml.style.borderRadius = buttonJson?.border?.radius ?? buttonHtml.style.borderRadius;
                 buttonsToRemove.push(buttonHtml);
                 templateHtmlPreviewer.appendChild(buttonHtml)
             }
@@ -103,18 +97,14 @@
                 //todo click on dialog must show next dialog? boolean on JSON?
                 //dialog.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
                 dialogHtml.innerText = translate(dialogJson?.text?.content ?? ''); //todo think about too much null safe, maybe some error is better?
-                dialogHtml.style.marginLeft = dialogJson.position.x + '%'; //todo should define 'required' properties somehow?
-                dialogHtml.style.marginTop = dialogJson.position.y + '%';
-                dialogHtml.style.height = dialogJson.size.y + '%';
-                dialogHtml.style.width = dialogJson.size.x + '%';
+                dialogHtml.style.marginLeft = dialogJson.position.x; //todo should define 'required' properties somehow?
+                dialogHtml.style.marginTop = dialogJson.position.y;  //todo naming must be as CSS? x == width and y == height?
+                dialogHtml.style.height = dialogJson.size.y;
+                dialogHtml.style.width = dialogJson.size.x;
                 dialogHtml.style.backgroundColor = dialogJson.background?.color ?? dialogHtml.style.backgroundColor;
                 dialogHtml.style.borderColor = dialogJson.border.color ?? dialogHtml.style.borderColor;
-                dialogHtml.style.borderWidth = dialogJson?.border?.width != null
-                    ? dialogJson.border.width + '%'
-                    : dialogHtml.style.borderWidth;
-                dialogHtml.style.borderRadius = dialogJson?.border?.radius != null
-                    ? dialogJson.border.radius + '%'
-                    : dialogHtml.style.borderRadius;
+                dialogHtml.style.borderWidth = dialogJson?.border?.width ?? dialogHtml.style.borderWidth;
+                dialogHtml.style.borderRadius = dialogJson?.border?.radius ?? dialogHtml.style.borderRadius;
                 dialogsToRemove.push(dialogHtml);
                 templateHtmlPreviewer.appendChild(dialogHtml)
             }
@@ -124,21 +114,15 @@
             let picturesJson = screen.pictures;
             for (let pictureJson of picturesJson) {
                 let pictureHtml = document.createElement('img');
-                //todo click on dialog must show next dialog? boolean on JSON?
-                //dialog.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
-                pictureHtml.src = pictureJson?.image?.content ?? ''; //todo think about too much null safe, maybe some error is better?
-                pictureHtml.style.marginLeft = pictureJson.position.x + '%'; //todo should define 'required' properties somehow?
-                pictureHtml.style.marginTop = pictureJson.position.y + '%'; //todo should the sizes be defined directly as "50%"?
-                pictureHtml.style.height = pictureJson.size.y + '%';
-                pictureHtml.style.width = pictureJson.size.x + '%';
+                pictureHtml.src = pictureJson?.image?.content ?? '';
+                pictureHtml.style.marginLeft = pictureJson.position.x;
+                pictureHtml.style.marginTop = pictureJson.position.y;
+                pictureHtml.style.height = pictureJson.size.y;
+                pictureHtml.style.width = pictureJson.size.x;
                 pictureHtml.style.backgroundColor = pictureJson.background?.color ?? pictureHtml.style.backgroundColor;
                 pictureHtml.style.borderColor = pictureJson.border.color ?? pictureHtml.style.borderColor;
-                pictureHtml.style.borderWidth = pictureJson?.border?.width != null
-                    ? pictureJson.border.width + '%'
-                    : pictureHtml.style.borderWidth;
-                pictureHtml.style.borderRadius = pictureJson?.border?.radius != null
-                    ? pictureJson.border.radius + '%'
-                    : pictureHtml.style.borderRadius;
+                pictureHtml.style.borderWidth = pictureJson?.border?.width ?? pictureHtml.style.borderWidth;
+                pictureHtml.style.borderRadius = pictureJson?.border?.radius ?? pictureHtml.style.borderRadius;
                 dialogsToRemove.push(pictureHtml);
                 templateHtmlPreviewer.appendChild(pictureHtml)
             }
@@ -155,7 +139,7 @@
                 loadButtons()
                 loadDialogs()
             },
-            exit: function() { //todo delete or see how to make it work. Maybe a first screen as menu?
+            exit: function() { //todo delete it or make it work. Or just forget about it with a menu?
                 window.close();
                 let customWindow = window.open('', '_blank', '');
                 customWindow.close();

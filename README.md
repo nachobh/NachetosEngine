@@ -20,8 +20,8 @@ The JSON file/template will have this format:
   },
   "canvas": {
     "size": {
-      "x": 50,
-      "y": 50,
+      "x": "50%",
+      "y": "50%",
       "constraints": {
         "min_x": "350px",
         "min_y": "550px",
@@ -56,12 +56,12 @@ The JSON file/template will have this format:
         "color": "white"
       },
       "size": {
-        "x": 100,
-        "y": 100
+        "x": "100%",
+        "y": "100%"
       },
       "border": {
         "color": "white",
-        "width": 0.1
+        "width": "0.1%"
       },
       "background": {
         "color": "grey"
@@ -71,12 +71,13 @@ The JSON file/template will have this format:
           "id": 1,
           "defaultFocused": true,
           "size": {
-            "x": 10,
-            "y": 5
+            "x": "10%",
+            "y": "5%"
           },
           "position": {
-            "x": 80,
-            "y": 85
+            "x": "80%",
+            "y": "85%",
+            "type": "relative"
           },
           "text": {
             "content": "${hello_world}",
@@ -94,12 +95,12 @@ The JSON file/template will have this format:
         {
           "id": 2,
           "size": {
-            "x": 10,
-            "y": 5
+            "x": "10%",
+            "y": "5%"
           },
           "position": {
-            "x": 20,
-            "y": 85
+            "x": "20%",
+            "y": "85%"
           },
           "text": {
             "content": "Hasta la vista!",
@@ -108,8 +109,8 @@ The JSON file/template will have this format:
           },
           "border": {
             "color": "red",
-            "width": 5,
-            "radius": 30
+            "width": "5%",
+            "radius": "30%"
           },
           "background": {
             "color": "#AEAEAE"
@@ -123,17 +124,17 @@ The JSON file/template will have this format:
         {
           "id": 1,
           "size": {
-            "x": 80,
-            "y": 20
+            "x": "80%",
+            "y": "20%"
           },
           "position": {
-            "x": 50,
-            "y": 75
+            "x": "50%",
+            "y": "75%"
           },
           "border": {
             "color": "red",
-            "width": 1,
-            "radius": 50
+            "width": "1%",
+            "radius": "50%"
           },
           "action-to-show": null,
           "text": {
@@ -148,17 +149,17 @@ The JSON file/template will have this format:
         {
           "id": 1,
           "size": {
-            "x": 80,
-            "y": 20
+            "x": "80%",
+            "y": "20%"
           },
           "position": {
-            "x": 50,
-            "y": 75
+            "x": "50%",
+            "y": "75%"
           },
           "border": {
             "color": "red",
-            "width": 0.1,
-            "radius": 10
+            "width": "0.1%",
+            "radius": "10%"
           },
           "action-to-show": null,
           "image": {
@@ -178,12 +179,12 @@ The JSON file/template will have this format:
         "color": "white"
       },
       "size": {
-        "x": 100,
-        "y": 100
+        "x": "100%",
+        "y": "100%"
       },
       "border": {
         "color": "white",
-        "width": 0.1
+        "width": "0.1%"
       },
       "background": {
         "color": "white"
@@ -192,12 +193,12 @@ The JSON file/template will have this format:
         {
           "id": 1,
           "size": {
-            "x": 10,
-            "y": 5
+            "x": "10%",
+            "y": "5%"
           },
           "position": {
-            "x": 20,
-            "y": 85
+            "x": "20%",
+            "y": "85%"
           },
           "text": {
             "content": "Hasta la vista!",
@@ -206,8 +207,8 @@ The JSON file/template will have this format:
           },
           "border": {
             "color": "red",
-            "width": 0.1,
-            "radius": 0.05
+            "width": "0.1%",
+            "radius": "0.05%"
           },
           "background": {
             "color": "#AEAEAE"
