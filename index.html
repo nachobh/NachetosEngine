@@ -74,11 +74,11 @@
             htmlElement.style.left = jsonElement.position?.x ?? htmlElement.style.left;
             htmlElement.style.top = jsonElement.position?.y ?? htmlElement.style.top;
             htmlElement.style.height = jsonElement.size?.y ?? htmlElement.style.height;
-            htmlElement.style.minHeight = jsonElement.size?.minY ?? htmlElement.style.minHeight;
-            htmlElement.style.maxHeight = jsonElement.size?.maxY ?? htmlElement.style.maxHeight;
+            htmlElement.style.minHeight = jsonElement.size?.constraints?.minY ?? htmlElement.style.minHeight;
+            htmlElement.style.maxHeight = jsonElement.size?.constraints?.maxY ?? htmlElement.style.maxHeight;
             htmlElement.style.width = jsonElement.size?.x ?? htmlElement.style.width;
-            htmlElement.style.minWidth = jsonElement.size?.minX ?? htmlElement.style.minWidth;
-            htmlElement.style.maxWidth = jsonElement.size?.maxX ?? htmlElement.style.maxWidth;
+            htmlElement.style.minWidth = jsonElement.size?.constraints?.minX ?? htmlElement.style.minWidth;
+            htmlElement.style.maxWidth = jsonElement.size?.constraints?.maxX ?? htmlElement.style.maxWidth;
             htmlElement.style.backgroundColor = jsonElement.background?.color ?? htmlElement.style.backgroundColor;
             htmlElement.style.borderColor = jsonElement.border?.color ?? htmlElement.style.borderColor;
             htmlElement.style.borderWidth = jsonElement.border?.width ?? htmlElement.style.borderWidth;

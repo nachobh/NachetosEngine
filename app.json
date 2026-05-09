@@ -140,7 +140,13 @@
           "id": 1,
           "size": {
             "x": "10%",
-            "y": "10%"
+            "y": "10%",
+            "constraints": {
+              "minX": "30px",
+              "minY": "30px",
+              "maxX": "60px",
+              "maxY": "60px"
+            }
           },
           "position": {
             "x": "0%",
