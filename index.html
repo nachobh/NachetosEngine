@@ -14,8 +14,10 @@
     </header>
     <hr/>
     <main id="templateHtml">
-        <h1 id="title">Template HTML</h1>
+        <h1 id="title">Template HTML title</h1>
         <p id="description">Template HTML content</p>
+        by
+        <p id="author">Template HTML author</p>
     </main>
     <hr/>
     <footer>
@@ -48,9 +50,25 @@
         }
 
         function setMetaElements() {
-            document.getElementById('title').innerText = translate(templateObject?.title?.content ?? '');
-            document.getElementById('description').innerText = translate(templateObject?.description?.content ?? '');
-            //todo meta elements of the html
+            let title = translate(templateObject?.title?.content ?? '');
+            let description = translate(templateObject?.description?.content ?? '');
+            let author = translate(templateObject?.author?.content ?? '');
+            document.getElementById('title').innerText = title;
+            document.getElementById('description').innerText = description;
+            document.getElementById('author').innerText = author;
+            let titleHtmlTag = document.createElement('title');
+            titleHtmlTag.textContent = title;
+            document.getElementsByTagName('head')[0].appendChild(titleHtmlTag);
+            let descriptionMetaTag = document.createElement('meta');
+            descriptionMetaTag.name = "description";
+            descriptionMetaTag.content = description;
+            document.getElementsByTagName('head')[0].appendChild(descriptionMetaTag);
+            let authorMetaTag = document.createElement('meta');
+            authorMetaTag.name = "author";
+            authorMetaTag.content = author;
+            document.getElementsByTagName('head')[0].appendChild(authorMetaTag);
+
+
         }
 
         function setCanvasSizing() {
@@ -88,7 +106,7 @@
 
         function loadButtons() {
             let buttonsJson = screen.buttons;
-            for (let buttonJson of buttonsJson) {
+            for (let buttonJson of buttonsJson ?? []) {
                 let buttonHtml = document.createElement('button');
                 buttonHtml.addEventListener('click', () => actions[buttonJson.action?.name ?? 'doNothing'](buttonJson.action.args));
                 buttonHtml.setAttribute('type', 'button');
@@ -101,7 +119,7 @@
 
         function loadDialogs() {
             let dialogsJson = screen.dialogs;
-            for (let dialogJson of dialogsJson) {
+            for (let dialogJson of dialogsJson ?? []) {
                 let dialogHtml = document.createElement('div');
                 //todo click on dialog must show next dialog? boolean on JSON?
                 //dialog.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
@@ -114,7 +132,7 @@
 
         function loadPictures() {
             let picturesJson = screen.pictures;
-            for (let pictureJson of picturesJson) {
+            for (let pictureJson of picturesJson ?? []) {
                 let pictureHtml = document.createElement('img');
                 pictureHtml.src = pictureJson.image?.content ?? '';
                 setCommonAttributes(pictureHtml, pictureJson);
@@ -167,9 +185,10 @@
     function resetTemplate() {
         let templateHtmlPreviewer = document.getElementById('templateHtml');
         templateHtmlPreviewer.innerHTML = '\n' +
-            '\t\t<h1 id="title">Template HTML</h1>\n' +
+            '\t\t<h1 id="title">Template HTML title</h1>\n' +
             '\t\t<p id="description">Template HTML content</p>' +
-            '\n';
+            '\nby\n' +
+            '\t\t<p id="author">Template HTML author</p>';
         templateHtmlPreviewer.style.backgroundColor = 'white';
         templateHtmlPreviewer.style.color = 'black';
         templateHtmlPreviewer.style.borderColor = 'transparent';
