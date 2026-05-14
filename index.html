@@ -24,6 +24,11 @@
         <label for="templateJson">Raw JSON</label>
         <br/>
         <textarea id="templateJson"></textarea>
+        <button type="button" onclick="downloadJson()">Save JSON</button>
+        <!--TODO: A way to make the change from screen to screen must be put in place   -->
+        <!--TODO: maybe save as different html files?? Or different "divs" with an "id" -->
+        <!--TODO: and changing the display="block" and display="none" on the actions    -->
+        <!--<button type="button" onclick="downloadHtml()">Save HTML</button>           -->
     </footer>
 </body>
 </html>
@@ -193,4 +198,22 @@
     }
 
     document.getElementById('templateLoader').addEventListener('change', readTemplate, false);
+
+    // <!-- Credit for this download snippet goes to @A-Sharabiani and @engincancan from:
+    // https://stackoverflow.com/questions/21479107/saving-html5-textarea-contents-to-file !-->
+    function downloadJson() {
+        let templateJsonTextArea = document.getElementById("templateJson");
+        let text = templateJsonTextArea.value;
+        text = text.replace(/\n/g, "\r\n");
+        let blob = new Blob([text], { type: 'application/json'});
+        let anchor = document.createElement('a');
+        anchor.download = "myApp.json";
+        anchor.href = window.URL.createObjectURL(blob);
+        anchor.target ="_blank";
+        anchor.style.display = "none";
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+    }
+
 </script>
