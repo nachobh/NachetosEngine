@@ -10,7 +10,7 @@
 <body>
     <header>
         <h1>Nachetos Engine</h1>
-        <input type="file" id="templateLoader" accept=".json">
+        <input type="file" id="templateLoader" accept=".json" onclick="this.value=null;">
     </header>
     <hr/>
     <main id="templateHtml">
@@ -105,8 +105,8 @@
         }
 
         function loadButtons() {
-            let buttonsJson = screen.buttons;
-            for (let buttonJson of buttonsJson ?? []) {
+            let buttonsJson = screen.buttons ?? [];
+            for (let buttonJson of buttonsJson) {
                 let buttonHtml = document.createElement('button');
                 buttonHtml.addEventListener('click', () => actions[buttonJson.action?.name ?? 'doNothing'](buttonJson.action.args));
                 buttonHtml.setAttribute('type', 'button');
@@ -118,8 +118,8 @@
         }
 
         function loadDialogs() {
-            let dialogsJson = screen.dialogs;
-            for (let dialogJson of dialogsJson ?? []) {
+            let dialogsJson = screen.dialogs ?? [];
+            for (let dialogJson of dialogsJson) {
                 let dialogHtml = document.createElement('div');
                 //todo click on dialog must show next dialog? boolean on JSON?
                 //dialog.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
@@ -131,8 +131,8 @@
         }
 
         function loadPictures() {
-            let picturesJson = screen.pictures;
-            for (let pictureJson of picturesJson ?? []) {
+            let picturesJson = screen.pictures ?? [];
+            for (let pictureJson of picturesJson) {
                 let pictureHtml = document.createElement('img');
                 pictureHtml.src = pictureJson.image?.content ?? '';
                 setCommonAttributes(pictureHtml, pictureJson);
@@ -143,14 +143,15 @@
 
         const actions = {
             loadScreen: function(screenIdToLoad) {
-                buttonsToRemove.forEach(button => {templateHtmlPreviewer.removeChild(button);})
-                dialogsToRemove.forEach(dialog => {templateHtmlPreviewer.removeChild(dialog);})
-                buttonsToRemove = []
-                dialogsToRemove = []
-                screen = templateObject.screens.find((screen) => screen.id === screenIdToLoad[0]);
+                buttonsToRemove.forEach(button => templateHtmlPreviewer.removeChild(button));
+                dialogsToRemove.forEach(dialog => templateHtmlPreviewer.removeChild(dialog));
+                buttonsToRemove = [];
+                dialogsToRemove = [];
+                screen = templateObject.screens.find((screen) => screen.id === screenIdToLoad);
                 setTemplateHtmlPreviewerStyle();
-                loadButtons()
-                loadDialogs()
+                loadButtons();
+                loadDialogs();
+                loadPictures();
             },
             exit: function() { //todo delete it or make it work. Or just forget about it with a menu?
                 window.close();
@@ -161,13 +162,9 @@
                 //empty function to protect against errors when action is not well-defined
             }
         }
-
-        setMetaElements()
-        setCanvasSizing()
-        setTemplateHtmlPreviewerStyle();
-        loadButtons();
-        loadDialogs();
-        loadPictures();
+        setMetaElements();
+        setCanvasSizing();
+        actions.loadScreen(screen.id);
     }
 
     function readTemplate(templateLoaderEvent) {
