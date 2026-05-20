@@ -216,5 +216,41 @@
         }
       ]
     }
+  ],
+  "functions": [
+    {
+      "parseTemplate": {
+        "args": [
+          "templateJsonText"
+        ],
+        "preparationBlocks": [
+          "let templateObject = JSON.parse(templateJsonText)",
+          "let canvas = templateObject.canvas",
+          "let screen = templateObject.screens.find((screen) => screen.first)"
+          "let templateHtmlPreviewer = document.getElementById('templateHtml')",
+          "let buttonsToRemove = []",
+          "let dialogsToRemove = []",
+          "let currentLanguageIso",
+          "let currentLanguageObject = templateObject.languages.find((language) => language.iso === (currentLanguageIso ?? 'es'))"
+        ],
+        "innerFunctions": [
+          {
+            "translate": {
+              "args": [
+                "literal"  
+              ],
+              "scriptBlocks": [
+                "if (typeof literal === 'string' && literal.substring(0, 2) === '${') {\n                let literalKey = literal.substring(2, literal.length - 1);\n                return currentLanguageObject[literalKey];\n            } else {\n                return literal;\n            }"
+              ]
+            }
+          }
+        ],
+        "scriptBlocks": [
+          "setMetaElements()",
+          "setCanvasSizing()",
+          "actions.loadScreen(screen.id)"
+        ]
+      }
+    }
   ]
 }
