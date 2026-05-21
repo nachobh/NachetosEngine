@@ -167,54 +167,6 @@
           "zIndex": -999
         }
       ]
-    },
-    {
-      "id": 2,
-      "title": {
-        "content": "${helloWorld}",
-        "backgroundColor": "transparent",
-        "color": "white"
-      },
-      "size": {
-        "x": "100%",
-        "y": "100%"
-      },
-      "border": {
-        "color": "white",
-        "width": "0.1%"
-      },
-      "background": {
-        "color": "white"
-      },
-      "buttons": [
-        {
-          "id": 1,
-          "size": {
-            "x": "10%",
-            "y": "5%"
-          },
-          "position": {
-            "x": "20%",
-            "y": "85%"
-          },
-          "text": {
-            "content": "Hasta la vista!",
-            "backgroundColor": "transparent",
-            "color": "#1A1A1A"
-          },
-          "border": {
-            "color": "red",
-            "width": "0.1%",
-            "radius": "0.05%"
-          },
-          "background": {
-            "color": "#AEAEAE"
-          },
-          "action": {
-            "name": "exit"
-          }
-        }
-      ]
     }
   ],
   "functions": [
