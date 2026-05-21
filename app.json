@@ -336,7 +336,7 @@
           "templateLoaderEvent"
         ],
         "scriptBlocks": [
-          "resetTemplate();\n        let templateFile = templateLoaderEvent.target.files[0];\n        let templateJsonTextArea = document.getElementById(\"templateJson\");\n        let templateJsonFileReader = new FileReader();\n        templateJsonFileReader.onload = () => {\n            templateJsonTextArea.value = templateJsonFileReader.result;\n            parseTemplate(templateJsonTextArea.value)\n        }\n        templateJsonFileReader.readAsText(templateFile);"
+          "resetTemplate();\n        let templateFile = templateLoaderEvent.target.files[0];\n        let templateJsonTextArea = document.getElementById(\"templateJson\");\n        // Snippet obtained from the mdn doc, that was easy ->\n        // https://developer.mozilla.org/en-US/docs/Web/API/FileReader/FileReader\n        let templateJsonFileReader = new FileReader();\n        templateJsonFileReader.onload = () => {\n            templateJsonTextArea.value = templateJsonFileReader.result;\n            parseTemplate(templateJsonTextArea.value)\n        }\n        templateJsonFileReader.readAsText(templateFile);"
         ]
       },
       "resetTemplate": {

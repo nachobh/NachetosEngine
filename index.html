@@ -10,6 +10,8 @@
 <body>
     <header>
         <h1>Nachetos Engine</h1>
+        <!-- onclick="this.value=null;" trick obtained from Mariusz Wiazowski ->
+         https://stackoverflow.com/questions/4109276/how-to-detect-input-type-file-change-for-the-same-file -->
         <input type="file" id="templateLoader" accept=".json" onclick="this.value=null;">
     </header>
     <hr/>
@@ -168,6 +170,8 @@
         resetTemplate();
         let templateFile = templateLoaderEvent.target.files[0];
         let templateJsonTextArea = document.getElementById("templateJson");
+        // Snippet obtained from the mdn doc, that was easy ->
+        // https://developer.mozilla.org/en-US/docs/Web/API/FileReader/FileReader
         let templateJsonFileReader = new FileReader();
         templateJsonFileReader.onload = () => {
             templateJsonTextArea.value = templateJsonFileReader.result;
