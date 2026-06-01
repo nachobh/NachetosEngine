@@ -128,9 +128,7 @@ A dummy JSON example without too much scripting:
           "background": {
             "color": "#AEAEAE"
           },
-          "action": {
-            "name": "exit"
-          }
+          "action": {}
         }
       ],
       "dialogs": [

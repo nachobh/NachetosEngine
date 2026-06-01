@@ -105,9 +105,7 @@
           "background": {
             "color": "#AEAEAE"
           },
-          "action": {
-            "name": "exit"
-          }
+          "action": {}
         }
       ],
       "dialogs": [
