@@ -182,6 +182,7 @@
           "let templateHtmlPreviewer = document.getElementById('templateHtml')",
           "let buttonsToRemove = []",
           "let dialogsToRemove = []",
+          "let scriptToRemove = []",
           "let currentLanguageIso",
           "let currentLanguageObject = templateObject.languages.find((language) => language.iso === (currentLanguageIso ?? 'es'))"
         ],
@@ -191,7 +192,7 @@
               "args": [
                 "literal"
               ],
-              "scriptBlocks": [
+              "     ": [
                 "if (typeof literal === 'string' && literal.substring(0, 2) === '${') {",
                 "\tlet literalKey = literal.substring(2, literal.length - 1)",
                 "\treturn currentLanguageObject[literalKey]",
@@ -253,9 +254,16 @@
                 "let picturesJson = screen.pictures ?? [];\n            for (let pictureJson of picturesJson) {\n                let pictureHtml = document.createElement('img');\n                pictureHtml.src = pictureJson.image?.content ?? '';\n                setCommonAttributes(pictureHtml, pictureJson);\n                dialogsToRemove.push(pictureHtml);\n                templateHtmlPreviewer.appendChild(pictureHtml)\n            }"
               ]
             }
+          },
+          {
+            "loadFunctions": {
+              "scriptBlocks": [
+                "let functionsJson = screen.functions ?? [];\n            let functionsHtml = document.createElement('script');\n\n            function functionJsonToString(functionJson) {\n                let functionsHtmlSrc;\n                functionsHtmlSrc = 'function ' + functionJson.name + '(' + (functionJson.args ?? ['']).join(', ') + ') {' +\n                    '\\n\\t' + functionJson.preparationBlocks?.join(';\\n ');\n                for (let innerFunctionJson of functionJson.innerFunctions ?? ['']) {\n                    functionsHtmlSrc = functionsHtmlSrc + innerFunctionJson.name + '(' + (innerFunctionJson.args ?? ['']).join(', ') + ') {'\n                        + '\\n\\t' + innerFunctionJson.preparationBlocks?.join(';\\n ');\n                    functionsHtmlSrc = functionsHtmlSrc + innerFunctionJson.scriptBlocks?.join(';\\n ')\n                        + '\\n}';\n                }\n                let postConstBlocks = functionJson.postConstBlocks ?? [];\n                for (let postConstBlock of postConstBlocks) {\n                    functionsHtmlSrc = functionsHtmlSrc + 'const ' + postConstBlock.name + ' = {\\n' +\n                        functionsToString(postConstBlock.functions)                        \n                        +'\\n}';\n                }\n                functionsHtmlSrc = functionsHtmlSrc + functionJson.scriptBlocks?.join(';\\n ')\n                    + '\\n}';\n                return functionsHtmlSrc;\n            }\n            \n\n            function functionsToString(functionsJsonVar) {\n                let functionsHtmlSrc = '';\n                for (let functionJson of functionsJsonVar) {\n                    functionsHtmlSrc = functionsHtmlSrc + functionJsonToString(functionJson);\n                }\n                return functionsHtmlSrc;\n            }\n\n            functionsHtml.src = functionsToString(functionsJson);\n            scriptToRemove.push(functionsHtml);\n            templateHtmlPreviewer.appendChild(functionsHtml)"
+              ]
+            }
           }
         ],
-        "constBlocks": [
+        "postConstBlocks": [
           {
             "actions": {
               "functions": [
@@ -265,13 +273,12 @@
                       "screenIdToLoad"
                     ],
                     "scriptBlocks": [
-                      "buttonsToRemove.forEach(button => templateHtmlPreviewer.removeChild(button));\n                dialogsToRemove.forEach(dialog => templateHtmlPreviewer.removeChild(dialog));\n                buttonsToRemove = [];\n                dialogsToRemove = [];\n                screen = templateObject.screens.find((screen) => screen.id === screenIdToLoad);\n                setTemplateHtmlPreviewerStyle();\n                loadButtons();\n                loadDialogs();\n                loadPictures();"
+                      "buttonsToRemove.forEach(button => templateHtmlPreviewer.removeChild(button));\n                dialogsToRemove.forEach(dialog => templateHtmlPreviewer.removeChild(dialog));\n                functionsToRemove.forEach(function_ => templateHtmlPreviewer.removeChild(function_));\n                buttonsToRemove = [];\n                dialogsToRemove = [];\n                functionsToRemove = [];\n                screen = templateObject.screens.find((screen) => screen.id === screenIdToLoad);\n                setTemplateHtmlPreviewerStyle();\n                loadButtons();\n                loadDialogs();\n                loadPictures();\n                loadFunctions();"
                     ]
                   }
                 },
                 {
-                  "doNothing": {
-                  }
+                  "doNothing": {}
                 }
               ]
             }

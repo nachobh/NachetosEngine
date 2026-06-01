@@ -42,6 +42,7 @@
         let templateHtmlPreviewer = document.getElementById('templateHtml');
         let buttonsToRemove = [];
         let dialogsToRemove = [];
+        let scriptToRemove = [];
         let currentLanguageIso;
         let currentLanguageObject = templateObject.languages.find((language) => language.iso === (currentLanguageIso ?? 'es'));
 
@@ -144,17 +145,59 @@
             }
         }
 
+        function loadFunctions() {
+            let functionsJson = screen.functions ?? [];
+            let functionsHtml = document.createElement('script');
+
+            function functionJsonToString(functionJson) {
+                let functionsHtmlSrc;
+                functionsHtmlSrc = 'function ' + functionJson.name + '(' + (functionJson.args ?? ['']).join(', ') + ') {' +
+                    '\n\t' + functionJson.preparationBlocks?.join(';\n ');
+                for (let innerFunctionJson of functionJson.innerFunctions ?? ['']) {
+                    functionsHtmlSrc = functionsHtmlSrc + innerFunctionJson.name + '(' + (innerFunctionJson.args ?? ['']).join(', ') + ') {'
+                        + '\n\t' + innerFunctionJson.preparationBlocks?.join(';\n ');
+                    functionsHtmlSrc = functionsHtmlSrc + innerFunctionJson.scriptBlocks?.join(';\n ')
+                        + '\n}';
+                }
+                let postConstBlocks = functionJson.postConstBlocks ?? [];
+                for (let postConstBlock of postConstBlocks) {
+                    functionsHtmlSrc = functionsHtmlSrc + 'const ' + postConstBlock.name + ' = {\n' +
+                        functionsToString(postConstBlock.functions)
+                        +'\n}';
+                }
+                functionsHtmlSrc = functionsHtmlSrc + functionJson.scriptBlocks?.join(';\n ')
+                    + '\n}';
+                return functionsHtmlSrc;
+            }
+
+
+            function functionsToString(functionsJsonVar) {
+                let functionsHtmlSrc = '';
+                for (let functionJson of functionsJsonVar) {
+                    functionsHtmlSrc = functionsHtmlSrc + functionJsonToString(functionJson);
+                }
+                return functionsHtmlSrc;
+            }
+
+            functionsHtml.src = functionsToString(functionsJson);
+            scriptToRemove.push(functionsHtml);
+            templateHtmlPreviewer.appendChild(functionsHtml)
+        }
+
         const actions = {
             loadScreen: function(screenIdToLoad) {
                 buttonsToRemove.forEach(button => templateHtmlPreviewer.removeChild(button));
                 dialogsToRemove.forEach(dialog => templateHtmlPreviewer.removeChild(dialog));
+                scriptToRemove.forEach(function_ => templateHtmlPreviewer.removeChild(function_));
                 buttonsToRemove = [];
                 dialogsToRemove = [];
+                scriptToRemove = [];
                 screen = templateObject.screens.find((screen) => screen.id === screenIdToLoad);
                 setTemplateHtmlPreviewerStyle();
                 loadButtons();
                 loadDialogs();
                 loadPictures();
+                loadFunctions();
             },
             doNothing: function() {
                 //empty function to protect against errors when action is not well-defined
