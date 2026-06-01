@@ -153,9 +153,9 @@
 
         function loadFunctions() {
             let functionsJson = templateObject.functions ?? null;
-
+            let functionsHtml;
             if (functionsJson != null) {
-                let functionsHtml = document.createElement('script');
+                functionsHtml = document.createElement('script');
             }
 
             function functionJsonToString(functionJson) {
