@@ -162,13 +162,10 @@
 
             function functionJsonToString(functionJson) {
                 let functionsHtmlSrc;
-                functionsHtmlSrc = 'function ' + functionJson?.name ?? 'someFunction' + '(' + (functionJson.args ?? ['']).join(', ') + ') {' +
+                functionsHtmlSrc = 'function ' + (functionJson?.name ?? 'someFunction') + '(' + (functionJson.args ?? ['']).join(', ') + ') {' +
                     '\n\t' + functionJson.preparationBlocks?.join(';\n ');
-                for (let innerFunctionJson of functionJson?.innerFunctions ?? []) {
-                    functionsHtmlSrc = functionsHtmlSrc + innerFunctionJson?.name ?? 'someFunction' + '(' + (innerFunctionJson.args ?? ['']).join(', ') + ') {'
-                        + '\n\t' + innerFunctionJson?.preparationBlocks?.join(';\n ');
-                    functionsHtmlSrc = functionsHtmlSrc + innerFunctionJson?.scriptBlocks?.join(';\n ')
-                        + '\n}';
+                if (functionJson?.innerFunctions != null) {
+                    functionsHtmlSrc = functionsToString(functionJson.innerFunctions);
                 }
                 let postConstBlocks = functionJson?.postConstBlocks ?? [];
                 for (let postConstBlock of postConstBlocks) {
