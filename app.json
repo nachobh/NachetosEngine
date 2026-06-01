@@ -180,7 +180,7 @@
           "let templateHtmlPreviewer = document.getElementById('templateHtml')",
           "let buttonsToRemove = []",
           "let dialogsToRemove = []",
-          "let picturesToRemove = [];"
+          "let picturesToRemove = []",
           "let scriptToRemove = []",
           "let currentLanguageIso",
           "let currentLanguageObject = templateObject.languages.find((language) => language.iso === (currentLanguageIso ?? 'es'))"
