@@ -157,6 +157,7 @@
             let functionsHtml;
             if (functionsJson != null) {
                 functionsHtml = document.createElement('script');
+                functionsHtml.type = 'text/javascript';
             }
 
             function functionJsonToString(functionJson) {
@@ -190,7 +191,7 @@
             }
 
             if (functionsJson != null) {
-                functionsHtml.src = functionsToString(functionsJson);
+                functionsHtml.textContent = functionsToString(functionsJson);
                 scriptToRemove.push(functionsHtml);
                 templateHtmlPreviewer.appendChild(functionsHtml)
             }
