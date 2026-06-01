@@ -42,6 +42,7 @@
         let templateHtmlPreviewer = document.getElementById('templateHtml');
         let buttonsToRemove = [];
         let dialogsToRemove = [];
+        let picturesToRemove = [];
         let scriptToRemove = [];
         let currentLanguageIso;
         let currentLanguageObject = templateObject.languages.find((language) => language.iso === (currentLanguageIso ?? 'es'));
@@ -145,7 +146,7 @@
                     let pictureHtml = document.createElement('img');
                     pictureHtml.src = pictureJson.image?.content ?? '';
                     setCommonAttributes(pictureHtml, pictureJson);
-                    dialogsToRemove.push(pictureHtml);
+                    picturesToRemove.push(pictureHtml);
                     templateHtmlPreviewer.appendChild(pictureHtml)
                 }
             }
@@ -199,9 +200,11 @@
             loadScreen: function(screenIdToLoad) {
                 buttonsToRemove.forEach(button => templateHtmlPreviewer.removeChild(button));
                 dialogsToRemove.forEach(dialog => templateHtmlPreviewer.removeChild(dialog));
+                picturesToRemove.forEach(picture => templateHtmlPreviewer.removeChild(picture));
                 scriptToRemove.forEach(function_ => templateHtmlPreviewer.removeChild(function_));
                 buttonsToRemove = [];
                 dialogsToRemove = [];
+                picturesToRemove = [];
                 scriptToRemove = [];
                 screen = templateObject.screens.find((screen) => screen.id === screenIdToLoad);
                 setTemplateHtmlPreviewerStyle();
