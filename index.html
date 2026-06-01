@@ -109,61 +109,70 @@
         }
 
         function loadButtons() {
-            let buttonsJson = screen.buttons ?? [];
-            for (let buttonJson of buttonsJson) {
-                let buttonHtml = document.createElement('button');
-                buttonHtml.addEventListener('click', () => actions[buttonJson.action?.name ?? 'doNothing'](buttonJson.action.args));
-                buttonHtml.setAttribute('type', 'button');
-                buttonHtml.textContent = translate(buttonJson.text?.content ?? '');
-                setCommonAttributes(buttonHtml, buttonJson);
-                buttonsToRemove.push(buttonHtml);
-                templateHtmlPreviewer.appendChild(buttonHtml)
+            let buttonsJson = screen?.buttons ?? null;
+            if (buttonsJson?.length > 0) {
+                for (let buttonJson of buttonsJson) {
+                    let buttonHtml = document.createElement('button');
+                    buttonHtml.addEventListener('click', () => actions[buttonJson.action?.name ?? 'doNothing'](buttonJson.action.args));
+                    buttonHtml.setAttribute('type', 'button');
+                    buttonHtml.textContent = translate(buttonJson.text?.content ?? '');
+                    setCommonAttributes(buttonHtml, buttonJson);
+                    buttonsToRemove.push(buttonHtml);
+                    templateHtmlPreviewer.appendChild(buttonHtml)
+                }
             }
         }
 
         function loadDialogs() {
-            let dialogsJson = screen.dialogs ?? [];
-            for (let dialogJson of dialogsJson) {
-                let dialogHtml = document.createElement('div');
-                //todo click on dialog must show next dialog? boolean on JSON?
-                //dialog.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
-                dialogHtml.innerText = translate(dialogJson.text?.content ?? '');
-                setCommonAttributes(dialogHtml, dialogJson);
-                dialogsToRemove.push(dialogHtml);
-                templateHtmlPreviewer.appendChild(dialogHtml)
+            let dialogsJson = screen?.dialogs ?? null;
+            if (dialogsJson?.length > 0) {
+                for (let dialogJson of dialogsJson) {
+                    let dialogHtml = document.createElement('div');
+                    //todo click on dialog must show next dialog? boolean on JSON?
+                    //dialog.addEventListener('click', () => actions[jsonButton.action.name](jsonButton.action.args));
+                    dialogHtml.innerText = translate(dialogJson.text?.content ?? '');
+                    setCommonAttributes(dialogHtml, dialogJson);
+                    dialogsToRemove.push(dialogHtml);
+                    templateHtmlPreviewer.appendChild(dialogHtml)
+                }
             }
         }
 
         function loadPictures() {
-            let picturesJson = screen.pictures ?? [];
-            for (let pictureJson of picturesJson) {
-                let pictureHtml = document.createElement('img');
-                pictureHtml.src = pictureJson.image?.content ?? '';
-                setCommonAttributes(pictureHtml, pictureJson);
-                dialogsToRemove.push(pictureHtml);
-                templateHtmlPreviewer.appendChild(pictureHtml)
+            let picturesJson = screen?.pictures ?? null;
+            if (picturesJson?.length > 0) {
+                for (let pictureJson of picturesJson) {
+                    let pictureHtml = document.createElement('img');
+                    pictureHtml.src = pictureJson.image?.content ?? '';
+                    setCommonAttributes(pictureHtml, pictureJson);
+                    dialogsToRemove.push(pictureHtml);
+                    templateHtmlPreviewer.appendChild(pictureHtml)
+                }
             }
         }
 
         function loadFunctions() {
-            let functionsJson = screen.functions ?? [];
-            let functionsHtml = document.createElement('script');
+            let functionsJson = templateObject.functions ?? null;
+
+            if (functionsJson != null) {
+                let functionsHtml = document.createElement('script');
+            }
 
             function functionJsonToString(functionJson) {
                 let functionsHtmlSrc;
-                functionsHtmlSrc = 'function ' + functionJson.name + '(' + (functionJson.args ?? ['']).join(', ') + ') {' +
+                functionsHtmlSrc = 'function ' + functionJson?.name ?? 'someFunction' + '(' + (functionJson.args ?? ['']).join(', ') + ') {' +
                     '\n\t' + functionJson.preparationBlocks?.join(';\n ');
-                for (let innerFunctionJson of functionJson.innerFunctions ?? ['']) {
-                    functionsHtmlSrc = functionsHtmlSrc + innerFunctionJson.name + '(' + (innerFunctionJson.args ?? ['']).join(', ') + ') {'
-                        + '\n\t' + innerFunctionJson.preparationBlocks?.join(';\n ');
-                    functionsHtmlSrc = functionsHtmlSrc + innerFunctionJson.scriptBlocks?.join(';\n ')
+                for (let innerFunctionJson of functionJson?.innerFunctions ?? []) {
+                    functionsHtmlSrc = functionsHtmlSrc + innerFunctionJson?.name ?? 'someFunction' + '(' + (innerFunctionJson.args ?? ['']).join(', ') + ') {'
+                        + '\n\t' + innerFunctionJson?.preparationBlocks?.join(';\n ');
+                    functionsHtmlSrc = functionsHtmlSrc + innerFunctionJson?.scriptBlocks?.join(';\n ')
                         + '\n}';
                 }
-                let postConstBlocks = functionJson.postConstBlocks ?? [];
+                let postConstBlocks = functionJson?.postConstBlocks ?? [];
                 for (let postConstBlock of postConstBlocks) {
                     functionsHtmlSrc = functionsHtmlSrc + 'const ' + postConstBlock.name + ' = {\n' +
-                        functionsToString(postConstBlock.functions)
-                        +'\n}';
+                        (postConstBlock?.functions != null ? functionsToString(postConstBlock.functions) : '')
+                        + '\n}';
                 }
                 functionsHtmlSrc = functionsHtmlSrc + functionJson.scriptBlocks?.join(';\n ')
                     + '\n}';
@@ -179,9 +188,11 @@
                 return functionsHtmlSrc;
             }
 
-            functionsHtml.src = functionsToString(functionsJson);
-            scriptToRemove.push(functionsHtml);
-            templateHtmlPreviewer.appendChild(functionsHtml)
+            if (functionsJson != null) {
+                functionsHtml.src = functionsToString(functionsJson);
+                scriptToRemove.push(functionsHtml);
+                templateHtmlPreviewer.appendChild(functionsHtml)
+            }
         }
 
         const actions = {

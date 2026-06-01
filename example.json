@@ -79,7 +79,7 @@
           },
           "action": {
             "name": "loadScreen",
-            "args": [2]
+            "args": 2
           }
         },
         {
@@ -204,9 +204,7 @@
           "background": {
             "color": "#AEAEAE"
           },
-          "action": {
-            "name": "exit"
-          }
+          "action": {}
         }
       ]
     }
