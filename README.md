@@ -102,7 +102,7 @@ A dummy JSON example without too much scripting:
           },
           "action": {
             "name": "loadScreen",
-            "args": [2]
+            "args": 2
           }
         },
         {
@@ -227,9 +227,7 @@ A dummy JSON example without too much scripting:
           "background": {
             "color": "#AEAEAE"
           },
-          "action": {
-            "name": "exit"
-          }
+          "action": {}
         }
       ]
     }
