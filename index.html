@@ -160,10 +160,31 @@
                 functionsHtml.type = 'text/javascript';
             }
 
-            function functionJsonToString(functionJson) {
+            function functionJsonToString(functionJson, name) {
+
+                function blockArrayJoin(arrayBlock) {
+                    let stringToReturn = '';
+                    if (arrayBlock instanceof Array) {
+                        for (let i = 0; i < arrayBlock.length; i++) {
+                            if (arrayBlock[i].endsWith('{')) {
+                                stringToReturn = stringToReturn + arrayBlock[i] + '\n';
+                            } else if (arrayBlock[i].endsWith('}')) {
+                                stringToReturn = stringToReturn + arrayBlock[i] + '\n';
+                            } else if (arrayBlock[i].endsWith(';')) {
+                                stringToReturn = stringToReturn + arrayBlock[i] + '\n';
+                            } else {
+                                stringToReturn = stringToReturn + arrayBlock[i] + ';\n';
+                            }
+                        }
+                    } else {
+                        stringToReturn = arrayBlock + '\n';
+                    }
+                    return stringToReturn;
+                }
+
                 let functionsHtmlSrc;
-                functionsHtmlSrc = 'function ' + (functionJson?.name ?? 'someFunction') + '(' + (functionJson.args ?? ['']).join(', ') + ') {' +
-                    '\n\t' + functionJson.preparationBlocks?.join(';\n ');
+                functionsHtmlSrc = '\r\nfunction ' + (functionJson?.name ?? name) + '(' + (functionJson.args ?? ['']).join(', ') + ') {' +
+                    '\n\t' + (functionJson.preparationBlocks != null ? blockArrayJoin(functionJson.preparationBlocks) : '');
                 if (functionJson?.innerFunctions != null) {
                     functionsHtmlSrc = functionsToString(functionJson.innerFunctions);
                 }
@@ -173,24 +194,29 @@
                         (postConstBlock?.functions != null ? functionsToString(postConstBlock.functions) : '')
                         + '\n}';
                 }
-                functionsHtmlSrc = functionsHtmlSrc + functionJson.scriptBlocks?.join(';\n ')
-                    + '\n}';
+
+                functionsHtmlSrc = functionsHtmlSrc + blockArrayJoin(functionJson.scriptBlocks) + '}';
                 return functionsHtmlSrc;
             }
 
 
             function functionsToString(functionsJsonVar) {
                 let functionsHtmlSrc = '';
-                for (let functionJson of functionsJsonVar) {
-                    functionsHtmlSrc = functionsHtmlSrc + functionJsonToString(functionJson);
+                for (const key in functionsJsonVar) {
+                    const entries = Object.entries(functionsJsonVar[key]);
+                    for (const [functionName, functionObject] of entries) {
+                        functionsHtmlSrc = functionsHtmlSrc + functionJsonToString(functionObject, functionName) + '\n';
+                    }
                 }
                 return functionsHtmlSrc;
             }
 
             if (functionsJson != null) {
                 functionsHtml.textContent = functionsToString(functionsJson);
+                console.log(functionsHtml);
                 scriptToRemove.push(functionsHtml);
                 templateHtmlPreviewer.appendChild(functionsHtml)
+                console.log(functionsHtml.textContent);
             }
         }
 
