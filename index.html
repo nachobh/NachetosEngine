@@ -191,13 +191,13 @@
                 }
                 if (functionJson?.postConstBlocks != null) {
                     for (let postConstBlock of functionJson?.postConstBlocks) {
-                        functionsHtmlSrc = functionsHtmlSrc + 'const ' + (postConstBlock?.name ?? name) + ' = {\n' +
+                        functionsHtmlSrc = functionsHtmlSrc + '\r\nconst ' + (postConstBlock?.name ?? name) + ' = {\n' +
                             (postConstBlock?.functions != null ? actionsToString(postConstBlock.functions) : '')
                             + '\n}';
                     }
                 }
 
-                functionsHtmlSrc = functionsHtmlSrc + blockArrayJoin(functionJson.scriptBlocks) + '}' + isFunction ? '' : ',';
+                functionsHtmlSrc = functionsHtmlSrc + blockArrayJoin(functionJson.scriptBlocks) + '}' + (isFunction ? '' : ',');
                 return functionsHtmlSrc;
             }
 
