@@ -160,7 +160,7 @@
                 functionsHtml.type = 'text/javascript';
             }
 
-            function functionJsonToString(functionJson, name) {
+            function functionJsonToString(functionJson, name, isFunction) {
 
                 function blockArrayJoin(arrayBlock) {
                     let stringToReturn = '';
@@ -183,32 +183,44 @@
                 }
 
                 let functionsHtmlSrc;
-                functionsHtmlSrc = '\r\nfunction ' + (functionJson?.name ?? name) + '(' + (functionJson.args ?? ['']).join(', ') + ') {' +
-                    '\n\t' + (functionJson.preparationBlocks != null ? blockArrayJoin(functionJson.preparationBlocks) : '');
+                functionsHtmlSrc = (isFunction ? ('\r\nfunction ' + (functionJson?.name ?? name) + '(' + (functionJson.args ?? ['']).join(', ')) :
+                    ((functionJson?.name ?? name) + ': function('+  (functionJson.args ?? ['']).join(', '))) +
+                    + ') {\n\t' + (functionJson.preparationBlocks != null ? blockArrayJoin(functionJson.preparationBlocks) : '');
                 if (functionJson?.innerFunctions != null) {
-                    functionsHtmlSrc = functionsToString(functionJson.innerFunctions);
+                    functionsHtmlSrc = functionsHtmlSrc + functionsToString(functionJson.innerFunctions);
                 }
-                let postConstBlocks = functionJson?.postConstBlocks ?? [];
-                for (let postConstBlock of postConstBlocks) {
-                    functionsHtmlSrc = functionsHtmlSrc + 'const ' + postConstBlock.name + ' = {\n' +
-                        (postConstBlock?.functions != null ? functionsToString(postConstBlock.functions) : '')
-                        + '\n}';
+                if (functionJson?.postConstBlocks != null) {
+                    for (let postConstBlock of functionJson?.postConstBlocks) {
+                        functionsHtmlSrc = functionsHtmlSrc + 'const ' + (postConstBlock?.name ?? name) + ' = {\n' +
+                            (postConstBlock?.functions != null ? actionsToString(postConstBlock.functions) : '')
+                            + '\n}';
+                    }
                 }
 
-                functionsHtmlSrc = functionsHtmlSrc + blockArrayJoin(functionJson.scriptBlocks) + '}';
+                functionsHtmlSrc = functionsHtmlSrc + blockArrayJoin(functionJson.scriptBlocks) + '}' + isFunction ? '' : ',';
                 return functionsHtmlSrc;
             }
 
+            function actionsToString(actionsJsonVar) {
+                let actionHtml = '';
+                for (const key in actionsJsonVar) {
+                    const entries = Object.entries(actionsJsonVar[key]);
+                    for (const [functionName, functionObject] of entries) {
+                        actionHtml = actionHtml + functionJsonToString(functionObject, functionName, false) + '\n';
+                    }
+                }
+                return actionHtml;
+            }
 
             function functionsToString(functionsJsonVar) {
-                let functionsHtmlSrc = '';
+                let functionHtml = '';
                 for (const key in functionsJsonVar) {
                     const entries = Object.entries(functionsJsonVar[key]);
                     for (const [functionName, functionObject] of entries) {
-                        functionsHtmlSrc = functionsHtmlSrc + functionJsonToString(functionObject, functionName) + '\n';
+                        functionHtml = functionHtml + functionJsonToString(functionObject, functionName, true) + '\n';
                     }
                 }
-                return functionsHtmlSrc;
+                return functionHtml;
             }
 
             if (functionsJson != null) {
@@ -239,7 +251,7 @@
             },
             doNothing: function() {
                 //empty function to protect against errors when action is not well-defined
-            }
+            },
         }
         setMetaElements();
         setCanvasSizing();
