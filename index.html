@@ -163,7 +163,7 @@
             function functionJsonToString(functionJson, name, isFunction) {
 
                 function blockArrayJoin(arrayBlock) {
-                    let stringToReturn = '';
+                    let stringToReturn = '\n';
                     if (arrayBlock instanceof Array) {
                         for (let i = 0; i < arrayBlock.length; i++) {
                             if (arrayBlock[i].endsWith('{')) {
@@ -184,20 +184,26 @@
 
                 let functionsHtmlSrc;
                 functionsHtmlSrc = (isFunction ? ('\r\nfunction ' + (functionJson?.name ?? name) + '(' + (functionJson.args ?? ['']).join(', ')) :
-                    ((functionJson?.name ?? name) + ': function('+  (functionJson.args ?? ['']).join(', '))) +
-                    + ') {\n\t' + (functionJson.preparationBlocks != null ? blockArrayJoin(functionJson.preparationBlocks) : '');
+                    ((functionJson?.name ?? name) + ': function('+  (functionJson.args ?? ['']).join(', ')))
+                    + ') {\n' + (functionJson.preparationBlocks != null ? blockArrayJoin(functionJson.preparationBlocks) : '');
                 if (functionJson?.innerFunctions != null) {
                     functionsHtmlSrc = functionsHtmlSrc + functionsToString(functionJson.innerFunctions);
                 }
                 if (functionJson?.postConstBlocks != null) {
-                    for (let postConstBlock of functionJson?.postConstBlocks) {
-                        functionsHtmlSrc = functionsHtmlSrc + '\r\nconst ' + (postConstBlock?.name ?? name) + ' = {\n' +
-                            (postConstBlock?.functions != null ? actionsToString(postConstBlock.functions) : '')
-                            + '\n}';
+                    for (const key in functionJson?.postConstBlocks) {
+                        const entries = Object.entries(functionJson?.postConstBlocks[key]);
+                        for (const [actionName, actionObject] of entries) {
+                            functionsHtmlSrc = functionsHtmlSrc + '\r\nconst ' + (actionObject?.name ?? actionName) + ' = {\n' +
+                                (actionObject?.functions != null ? actionsToString(actionObject.functions) : '')
+                                + '\n}';
+                        }
                     }
                 }
 
-                functionsHtmlSrc = functionsHtmlSrc + blockArrayJoin(functionJson.scriptBlocks) + '}' + (isFunction ? '' : ',');
+                functionsHtmlSrc = functionsHtmlSrc +
+                    (functionJson.scriptBlocks != null ? blockArrayJoin(functionJson.scriptBlocks) : '') +
+                    '}' +
+                    (isFunction ? '' : ',');
                 return functionsHtmlSrc;
             }
 
